@@ -1,0 +1,8 @@
+if (ip.proto == TCP && tcp.src == 1883) {
+        msg("\nReceived packet with src port 1883. Dropping...\n");
+        drop();
+}
+if (ip.proto == TCP && tcp.dst == 1883) {
+        msg("\nReceived packet with dst port 1883. Dropping...\n");
+        drop();
+}
