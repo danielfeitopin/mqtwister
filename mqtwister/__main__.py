@@ -1,7 +1,7 @@
 from . import context
 from .config import TARGET_IP
-from .menu import Banner
-from .utils import get_arp_table, get_mac_address
+from .cli.banner import Banner
+from .utils.network import get_arp_table, get_mac_address
 
 # Display banner
 print(Banner.get_colorful_banner(214))
