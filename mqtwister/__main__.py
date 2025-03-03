@@ -1,6 +1,7 @@
 from . import context
 from .config import TARGET_IP
 from .cli.banner import Banner
+from .utils.logging import logger
 from .utils.network import get_arp_table, get_mac_address
 
 # Display banner
@@ -8,9 +9,9 @@ print(Banner.get_colorful_banner(214))
 print('=' * Banner.WIDTH)
 
 # Get ARP table
-print("Getting ARP table...", end=" ")
+logger.info("Getting ARP table...")
 context['ARP_TABLE'] = get_arp_table()
-print("Done!")
+logger.debug(f"ARP table: {context['ARP_TABLE']}")
 
 # Get own MAC address
 context['OWN_MAC_ADDRESS'] = get_mac_address()
