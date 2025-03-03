@@ -1,6 +1,7 @@
 import re
 import subprocess
 import uuid
+import psutil
 
 
 def get_arp_table() -> dict[str, str]:
@@ -21,6 +22,20 @@ def get_arp_table() -> dict[str, str]:
     except Exception as e:
         print(f"Error reading ARP table: {e}")
     return arp_table
+
+
+def get_interfaces() -> list[str]:
+    return list(psutil.net_if_addrs().keys())
+
+
+def get_interface_mac(interface_name: str) -> str | None:
+    mac: str | None = None
+    interfaces = psutil.net_if_addrs()
+    if interface_name in interfaces:
+        for snicaddr in interfaces[interface_name]:
+            if snicaddr.family == psutil.AF_LINK:
+                mac: str = snicaddr.address
+    return mac
 
 
 def get_mac_address() -> str:
