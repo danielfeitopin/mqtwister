@@ -1,0 +1,2 @@
+-i https://pypi.org/simple
+psutil==7.0.0; python_version >= '3.6'
