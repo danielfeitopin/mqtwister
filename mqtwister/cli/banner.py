@@ -11,12 +11,12 @@ class Banner:
     HEIGTH: int = len(LINES)
     WIDTH: int = len(LINES[0])
     TEXT: str = '\n'.join(LINES)
-    COLOR: int = 202
+    DEFAULT_COLOR: int = 214
 
     @classmethod
-    def get_banner(cls) -> str:
-        return f'\033[1m' + cls.TEXT + '\033[0m'
-
-    @classmethod
-    def get_colorful_banner(cls, color_256: int = COLOR) -> str:
-        return f'\033[1;38;5;{color_256}m' + cls.TEXT + '\033[0m'
+    def get_colorful_banner(cls, color_256: int | None = None) -> str:
+        if color_256 is None:
+            decorator: str = f'\033[1m'
+        else:
+            decorator: str = f'\033[1;38;5;{color_256}m'
+        return '\n'.join([decorator + line + '\033[0m' for line in cls.LINES])

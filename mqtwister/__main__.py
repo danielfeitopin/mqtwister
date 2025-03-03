@@ -5,7 +5,7 @@ from .utils.logging import logger
 from .utils.network import get_arp_table, get_mac_address
 
 # Display banner
-print(Banner.get_colorful_banner(214))
+print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
 print('=' * Banner.WIDTH)
 
 # Get ARP table
