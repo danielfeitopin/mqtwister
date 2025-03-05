@@ -40,13 +40,13 @@ For a classic installation, the file [`requirements.txt`](requirements.txt) is p
     source .venv/bin/activate
     ```
 
-    > [!NOTE] Virtual environment activation script path
-    > On Windows run `.venv\Scripts\activate`
-
 3. Install dependencies:
     ```sh
     pip install -r requirements.txt
     ```
+
+> [!NOTE]
+> On Windows run `.venv\Scripts\activate` instead of `source .venv/bin/activate`.
 
 ### Using `Pipenv`
 
@@ -72,14 +72,6 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
     TARGET_IP = ''
     ```
 
-    > [!TIP] Available network interfaces
-    > There is a useful function in [`mqtwister/utils/network.py`](mqtwister/utils/network.py) to get a list of the available network interfaces: `get_interfaces()`.
-    >
-    > ```sh
-    > python -c "import mqtwister.utils.network as net; print(net.get_interfaces())"
-    > ```
-
-
 <!-- 1. Use `etterfilter` to compile the filter script:
 
     ```sh
@@ -92,11 +84,17 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
     python -m mqtwister
     ```
 
-    > [!IMPORTANT] Use inside virtual environment
-    > Be sure to execute the command inside the virtual environment (if used).
-
-> [!NOTE] Aditional considerations
+> [!IMPORTANT]
+> - Be sure to execute the command inside the virtual environment (if used).
 > - Ensure you have the necessary permissions to run network sniffing tools.
+
+> [!TIP]
+>
+> There is a useful function in [`mqtwister/utils/network.py`](mqtwister/utils/network.py) to get a list of the available network interfaces: `get_interfaces()`.
+>
+> ```sh
+> python -c "import mqtwister.utils.network as net; print(net.get_interfaces())"
+> ```
 
 ## Contributing
 
