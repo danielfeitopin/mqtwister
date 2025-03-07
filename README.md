@@ -9,6 +9,12 @@
 [![GitHub issues](https://img.shields.io/github/issues/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister> "Issues")
 [![GitHub stars](https://img.shields.io/github/stars/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister/stargazers> "Stars")
 
+<div align="center" width="90%">
+
+![Usage Example](./docs/img/readme-terminal.gif)
+
+</div>
+
 </div>
 
 ## Table of Contents
