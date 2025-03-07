@@ -1,7 +1,7 @@
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Debugging
-LOGGING_LEVEL: int = DEBUG
+LOGGING_LEVEL: int | None = DEBUG
 
 # Host configuration
 INTERFACE_NAME: str = ''
