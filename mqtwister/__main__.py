@@ -1,9 +1,10 @@
+import sys
 from . import context
 from .config import TARGET_IP, INTERFACE_NAME
 from .cli.banner import Banner
+from .processor.sniffer import get_sniffer
 from .utils.logging import logger
 from .utils.network import get_arp_table, get_interface_mac
-import sys
 
 # Display banner
 print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
@@ -31,3 +32,34 @@ if not context.get('TARGET_MAC_ADDRESS'):
     print(msg)
     sys.exit(1)
 print(f"Target MAC address: {context['TARGET_MAC_ADDRESS']}")
+
+# Start sniffer
+msg = "Starting sniffer..."
+logger.info(msg)
+print(msg)
+sniffer = get_sniffer(INTERFACE_NAME)
+
+try:
+    sniffer.start()
+    
+    if sniffer.exception:
+        raise sniffer.exception
+    
+    # Wait for user to stop the sniffer
+    input("Press a key to stop the sniffer...")
+    msg = "Stopping sniffer..."
+    logger.info(msg)
+    if sniffer.running:
+        sniffer.stop()
+    logger.info("Sniffer stopped.")
+    sys.exit(0)
+
+except KeyboardInterrupt:
+    sys.exit(0)
+    
+except PermissionError:
+    msg = "Permission denied."
+    logger.error(msg)
+    print(msg, end=" ")
+    print("Please run as root.")
+    sys.exit(1)
