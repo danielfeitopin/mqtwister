@@ -1,7 +1,19 @@
+import psutil
 import re
 import subprocess
 import uuid
-import psutil
+
+
+def get_mac_address() -> str:
+    MAC_CHARS: int = 12  # Number of characters in a MAC address
+    mac: int = uuid.getnode()  # 48-bit integer
+    mac: str = hex(mac)[2:].zfill(MAC_CHARS)  # Hex string without '0x' prefix
+    mac: str = ':'.join([mac[i:i+2] for i in range(0, len(mac), 2)])  # Format
+    return mac
+
+
+def format_mac_address(mac: str) -> str:
+    return mac.lower().replace('-', ':')
 
 
 def get_arp_table() -> dict[str, str]:
@@ -18,7 +30,8 @@ def get_arp_table() -> dict[str, str]:
         output: str = subprocess.check_output(COMMAND, text=True)
         for line in output.splitlines():
             if match := re.search(ip_mac_regex, line):
-                arp_table.update([match.groups()])
+                ip, mac = match.groups()
+                arp_table[ip] = format_mac_address(mac)
     except Exception as e:
         print(f"Error reading ARP table: {e}")
     return arp_table
@@ -34,13 +47,6 @@ def get_interface_mac(interface_name: str) -> str | None:
     if interface_name in interfaces:
         for snicaddr in interfaces[interface_name]:
             if snicaddr.family == psutil.AF_LINK:
-                mac: str = snicaddr.address
-    return mac
-
-
-def get_mac_address() -> str:
-    MAC_CHARS: int = 12  # Number of characters in a MAC address
-    mac: int = uuid.getnode()  # 48-bit integer
-    mac: str = hex(mac)[2:].zfill(MAC_CHARS)  # Hex string without '0x' prefix
-    mac: str = ':'.join([mac[i:i+2] for i in range(0, len(mac), 2)])  # Format
+                mac: str = format_mac_address(snicaddr.address)
+                break
     return mac
