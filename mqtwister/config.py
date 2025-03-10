@@ -8,3 +8,4 @@ INTERFACE_NAME: str = ''
 
 # Target configuration
 TARGET_IP: str = ''
+MQTT_PORT: int = 1883

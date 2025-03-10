@@ -1,8 +1,9 @@
 import sys
 from . import context
-from .config import TARGET_IP, INTERFACE_NAME
+from .config import TARGET_IP, INTERFACE_NAME, MQTT_PORT
 from .cli.banner import Banner
 from .processor.sniffer import get_sniffer
+from .processor.mqtt import packet_callback
 from .utils.logging import logger
 from .utils.network import get_arp_table, get_interface_mac
 
@@ -37,7 +38,7 @@ print(f"Target MAC address: {context['TARGET_MAC_ADDRESS']}")
 msg = "Starting sniffer..."
 logger.info(msg)
 print(msg)
-sniffer = get_sniffer(INTERFACE_NAME)
+sniffer = get_sniffer(INTERFACE_NAME, packet_callback, MQTT_PORT)
 
 try:
     sniffer.start()
@@ -46,7 +47,7 @@ try:
         raise sniffer.exception
     
     # Wait for user to stop the sniffer
-    input("Press a key to stop the sniffer...")
+    input("Press a key to stop the sniffer...\n")
     msg = "Stopping sniffer..."
     logger.info(msg)
     if sniffer.running:
