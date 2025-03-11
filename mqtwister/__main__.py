@@ -47,7 +47,7 @@ try:
         raise sniffer.exception
     
     # Wait for user to stop the sniffer
-    input("Press a key to stop the sniffer...\n")
+    input("Press ENTER to stop the sniffer...\n")
     msg = "Stopping sniffer..."
     logger.info(msg)
     if sniffer.running:
