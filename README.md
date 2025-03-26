@@ -25,6 +25,7 @@
     - [Using `requirements.txt`](#using-requirementstxt)
     - [Using `Pipenv`](#using-pipenv)
   - [Usage](#usage)
+  - [License](#license)
   - [Contributing](#contributing)
   - [Contact](#contact)
 
@@ -101,6 +102,21 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 > ```sh
 > python -c "import mqtwister.utils.network as net; print(net.get_interfaces())"
 > ```
+
+## License
+
+This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE](<LICENSE>).
+
+<details>
+<summary>Why this license?</summary>
+
+The decision to license this project under the GNU General Public License version 3 (GPLv3) is based on legal compatibility, ethical considerations, and long-term sustainability. Furthermore, given that the project incorporates dependencies licensed under GPLv2 and BSD-3-Clause, GPLv3 ensures compliance while preserving the core principles of open-source software.
+
+Regarding the GPLv2-licensed dependency, the compatibility depends on whether it is distributed under "GPLv2 or later" or strictly "GPLv2 only." As this is the former case, adopting GPLv3 is a legally valid choice that allows for greater flexibility.
+
+The inclusion of BSD-3-Clause-licensed components does not pose a conflict, as BSD-licensed software can be freely integrated into GPL-licensed projects. The permissive nature of BSD-3-Clause allows its code to be incorporated into projects under more restrictive copyleft licenses, such as GPLv3, without violating its terms.
+
+</details>
 
 ## Contributing
 
