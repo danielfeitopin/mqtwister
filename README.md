@@ -107,14 +107,50 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE](<LICENSE>).
 
+<div align="center">
+
+| Permissions      | Conditions                     | Limitations |
+| ---------------- | ------------------------------ | ----------- |
+| 🟢 Commercial use | 🔵 Disclose source              | 🔴 Liability |
+| 🟢 Distribution   | 🔵 License and copyright notice | 🔴 Warranty  |
+| 🟢 Modification   | 🔵 Same license                 |             |
+| 🟢 Patent use     | 🔵 State changes                |             |
+| 🟢 Private use    |                                |             |
+
+_Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-3.0/>)_
+
+</div>
+
 <details>
 <summary>Why this license?</summary>
+
+___
 
 The decision to license this project under the GNU General Public License version 3 (GPLv3) is based on legal compatibility, ethical considerations, and long-term sustainability. Furthermore, given that the project incorporates dependencies licensed under GPLv2 and BSD-3-Clause, GPLv3 ensures compliance while preserving the core principles of open-source software.
 
 Regarding the GPLv2-licensed dependency, the compatibility depends on whether it is distributed under "GPLv2 or later" or strictly "GPLv2 only." As this is the former case, adopting GPLv3 is a legally valid choice that allows for greater flexibility.
 
 The inclusion of BSD-3-Clause-licensed components does not pose a conflict, as BSD-licensed software can be freely integrated into GPL-licensed projects. The permissive nature of BSD-3-Clause allows its code to be incorporated into projects under more restrictive copyleft licenses, such as GPLv3, without violating its terms.
+
+___
+
+</details>
+
+<details>
+<summary>Used dependencies and their licenses</summary>
+
+___
+
+<div align="center">
+
+| Component | Version |                                       Licence                                        |
+| :-------: | :-----: | :----------------------------------------------------------------------------------: |
+|   scapy   |  2.6.1  |        [GPL-2.0 license](<https://github.com/secdev/scapy#GPL-2.0-1-ov-file>)        |
+|  psutil   |  7.0.0  | [BSD-3-Clause license](<https://github.com/giampaolo/psutil#BSD-3-Clause-1-ov-file>) |
+
+</div>
+
+___
 
 </details>
 
