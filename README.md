@@ -7,7 +7,10 @@
 [![Python](https://img.shields.io/badge/Python-black?logo=python&logoColor=white&labelColor=grey&color=%233776AB)](<#> "Python")
 [![License](<https://img.shields.io/github/license/danielfeitopin/mqtwister>)](<LICENSE> "License")
 [![GitHub issues](https://img.shields.io/github/issues/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister> "Issues")
+
 [![GitHub stars](https://img.shields.io/github/stars/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister/stargazers> "Stars")
+[![GitHub watchers](https://img.shields.io/github/watchers/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister/watchers> "Watchers")
+[![GitHub forks](https://img.shields.io/github/forks/danielfeitopin/mqtwister)](<https://github.com/danielfeitopin/mqtwister/forks> "Forks")
 
 <div align="center" width="90%">
 
@@ -27,6 +30,7 @@
   - [Usage](#usage)
   - [License](#license)
   - [Contributing](#contributing)
+  - [Support this project](#support-this-project)
   - [Contact](#contact)
 
 ## Setup
@@ -105,7 +109,7 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 ## License
 
-This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE](<LICENSE>).
+📃 This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE](<LICENSE>).
 
 <div align="center">
 
@@ -143,12 +147,23 @@ ___
 
 <div align="center">
 
-| Component | Version |                                       Licence                                        |
-| :-------: | :-----: | :----------------------------------------------------------------------------------: |
-|   scapy   |  2.6.1  |        [GPL-2.0 license](<https://github.com/secdev/scapy#GPL-2.0-1-ov-file>)        |
-|  psutil   |  7.0.0  | [BSD-3-Clause license](<https://github.com/giampaolo/psutil#BSD-3-Clause-1-ov-file>) |
+|              Component               |                    License                     |
+| :----------------------------------: | :--------------------------------------------: |
+|  [![scapy_badge]][scapy_repository]  |  [![scapy_license_badge]][scapy_license_file]  |
+| [![psutil_badge]][psutil_repository] | [![psutil_license_badge]][psutil_license_file] |
 
 </div>
+
+<!-- LINKS -->
+[scapy_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/scapy>
+[scapy_repository]: <https://github.com/secdev/scapy>
+[scapy_license_badge]: <https://img.shields.io/github/license/secdev/scapy>
+[scapy_license_file]: <https://github.com/secdev/scapy/blob/master/LICENSE>
+
+[psutil_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/psutil>
+[psutil_repository]: <https://github.com/giampaolo/psutil>
+[psutil_license_badge]: <https://img.shields.io/github/license/giampaolo/psutil>
+[psutil_license_file]: <https://github.com/giampaolo/psutil/blob/master/LICENSE>
 
 ___
 
@@ -156,7 +171,15 @@ ___
 
 ## Contributing
 
-Contributions are welcome! If you have improvements, or bug fixes, feel free to submit a pull request.
+🤝 Contributions are welcome! If you have improvements or bug fixes, feel free to submit a pull request.
+
+📜 Please make sure to review the [CONTRIBUTING](CONTRIBUTING.md) guidelines before getting started.
+
+✅ By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Support this project
+
+⭐ If you find this project useful, please consider giving it a star on [GitHub][repository]. Your support helps to improve and maintain the project!
 
 ## Contact
 
@@ -168,3 +191,6 @@ Feel free to get in touch with me!
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-white?style=for-the-badge&logo=linkedin&logoColor=white&color=%230A66C2)](<https://www.linkedin.com/in/danielfeitopin/>)
 
 </div>
+
+<!-- LINKS -->
+[repository]: <https://github.com/danielfeitopin/mqtwister>
