@@ -177,6 +177,8 @@ ___
 
 ✅ By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
+🔒 Security is a top priority for this project. If you discover any vulnerabilities or have concerns regarding the security of this tool, please report them responsibly by following the [SECURITY](SECURITY.md) guidelines.
+
 ## Support this project
 
 ⭐ If you find this project useful, please consider giving it a star on [GitHub][repository]. Your support helps to improve and maintain the project!
