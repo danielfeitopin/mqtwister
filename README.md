@@ -126,7 +126,7 @@ _Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-3.
 </div>
 
 <details>
-<summary>Why this license?</summary>
+<summary><u>Why this license?</u></summary>
 
 ___
 
@@ -141,7 +141,7 @@ ___
 </details>
 
 <details>
-<summary>Used dependencies and their licenses</summary>
+<summary><u>Used dependencies and their licenses</u></summary>
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 ## Contact
 
-Feel free to get in touch with me!
+📧 Feel free to get in touch with me!
 
 <div align="center">
 
