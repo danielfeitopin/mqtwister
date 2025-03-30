@@ -175,7 +175,7 @@ ___
 
 ❓ For support, please refer to the [SUPPORT] file for details on how to get help with this project.
 
-📜 Please make sure to review the [CONTRIBUTING] guidelines before getting started.
+📜 Please make sure to review the [CONTRIBUTING] guidelines and the [GOVERNANCE] document before getting started.
 
 ✅ By participating in this project, you agree to abide by our [Code of Conduct].
 
@@ -200,6 +200,7 @@ ___
 [repository]: <https://github.com/danielfeitopin/mqtwister>
 [SUPPORT]: <SUPPORT.md>
 [CONTRIBUTING]: <CONTRIBUTING.md>
+[GOVERNANCE]: <GOVERNANCE.md>
 [Code of Conduct]: <CODE_OF_CONDUCT.md>
 [SECURITY]: <SECURITY.md>
 [LICENSE]: <LICENSE>
