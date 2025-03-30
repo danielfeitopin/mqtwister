@@ -109,7 +109,7 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 ## License
 
-📃 This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE](<LICENSE>).
+📃 This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE].
 
 <div align="center">
 
@@ -126,7 +126,7 @@ _Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-3.
 </div>
 
 <details>
-<summary><u>Why this license?</u></summary>
+<summary>Why this license?</summary>
 
 ___
 
@@ -141,7 +141,7 @@ ___
 </details>
 
 <details>
-<summary><u>Used dependencies and their licenses</u></summary>
+<summary>Used dependencies and their licenses</summary>
 
 ___
 
@@ -173,11 +173,13 @@ ___
 
 🤝 Contributions are welcome! If you have improvements or bug fixes, feel free to submit a pull request.
 
-📜 Please make sure to review the [CONTRIBUTING](CONTRIBUTING.md) guidelines before getting started.
+❓ For support, please refer to the [SUPPORT] file for details on how to get help with this project.
 
-✅ By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+📜 Please make sure to review the [CONTRIBUTING] guidelines before getting started.
 
-🔒 Security is a top priority for this project. If you discover any vulnerabilities or have concerns regarding the security of this tool, please report them responsibly by following the [SECURITY](SECURITY.md) guidelines.
+✅ By participating in this project, you agree to abide by our [Code of Conduct].
+
+🔒 Security is a top priority for this project. If you discover any vulnerabilities or have concerns regarding the security of this tool, please report them responsibly by following the [SECURITY] guidelines.
 
 ## Support this project
 
@@ -196,3 +198,8 @@ ___
 
 <!-- LINKS -->
 [repository]: <https://github.com/danielfeitopin/mqtwister>
+[SUPPORT]: <SUPPORT.md>
+[CONTRIBUTING]: <CONTRIBUTING.md>
+[Code of Conduct]: <CODE_OF_CONDUCT.md>
+[SECURITY]: <SECURITY.md>
+[LICENSE]: <LICENSE>
