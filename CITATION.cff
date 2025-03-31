@@ -1,0 +1,21 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: MQTwister
+message: >-
+  A Tool for Man-in-the-Middle (MitM) Attacks on the MQTT
+  Protocol.
+type: software
+authors:
+  - given-names: Daniel
+    family-names: Feito-Pin
+    affiliation: Universidade da Coruña
+    orcid: 'https://orcid.org/0000-0002-2548-457X'
+repository-code: 'https://github.com/danielfeitopin/mqtwister'
+keywords:
+  - mqtt
+  - cybersecurity
+  - MitM
+  - Man-in-the-Middle
+license: GPL-3.0
