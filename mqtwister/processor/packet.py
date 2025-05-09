@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
 from scapy.all import Packet, NoPayload
 from scapy.layers.inet import IP, TCP
 

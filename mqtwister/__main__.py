@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
 import sys
 from . import context
 from .config import TARGET_IP, INTERFACE_NAME, MQTT_PORT

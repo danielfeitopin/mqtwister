@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
 if (ip.proto == TCP && tcp.src == 1883) {
         msg("\nReceived packet with src port 1883. Dropping...\n");
         drop();

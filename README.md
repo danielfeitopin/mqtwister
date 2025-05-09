@@ -109,7 +109,7 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 ## License
 
-📃 This project is licensed under the [GNU General Public License version 3](<https://opensource.org/license/gpl-3-0>). A copy of this license can be found in [LICENSE].
+📃 This project is licensed under the [GNU General Public License version 2](<https://opensource.org/license/gpl-2-0>). A copy of this license can be found in the [LICENSE] file, and in the [LICENSES] folder.
 
 <div align="center">
 
@@ -118,10 +118,9 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 | 🟢 Commercial use | 🔵 Disclose source              | 🔴 Liability |
 | 🟢 Distribution   | 🔵 License and copyright notice | 🔴 Warranty  |
 | 🟢 Modification   | 🔵 Same license                 |             |
-| 🟢 Patent use     | 🔵 State changes                |             |
-| 🟢 Private use    |                                |             |
+| 🟢 Private use    | 🔵 State changes                |             |
 
-_Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-3.0/>)_
+_Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-2.0/>)_
 
 </div>
 
@@ -130,11 +129,9 @@ _Table based on [choosealicense.com](<https://choosealicense.com/licenses/gpl-3.
 
 ___
 
-The decision to license this project under the GNU General Public License version 3 (GPLv3) is based on legal compatibility, ethical considerations, and long-term sustainability. Furthermore, given that the project incorporates dependencies licensed under GPLv2 and BSD-3-Clause, GPLv3 ensures compliance while preserving the core principles of open-source software.
+The initial intention was to license this project under the GNU General Public License version 3 (GPLv3) due to its enhanced legal protections, ethical considerations, and long-term sustainability. However, after reviewing the dependencies, it was determined that one of them is licensed under "GPLv2 only," which is incompatible with GPLv3. 
 
-Regarding the GPLv2-licensed dependency, the compatibility depends on whether it is distributed under "GPLv2 or later" or strictly "GPLv2 only." As this is the former case, adopting GPLv3 is a legally valid choice that allows for greater flexibility.
-
-The inclusion of BSD-3-Clause-licensed components does not pose a conflict, as BSD-licensed software can be freely integrated into GPL-licensed projects. The permissive nature of BSD-3-Clause allows its code to be incorporated into projects under more restrictive copyleft licenses, such as GPLv3, without violating its terms.
+To ensure compliance and compatibility with all dependencies, the project is licensed under GPLv2. This decision aligns with the licensing terms of the included components while preserving the principles of open-source software. The permissive BSD-3-Clause-licensed components used in the project remain compatible with GPLv2, as their terms allow integration into projects under more restrictive copyleft licenses.
 
 ___
 
@@ -204,3 +201,4 @@ ___
 [Code of Conduct]: <CODE_OF_CONDUCT.md>
 [SECURITY]: <SECURITY.md>
 [LICENSE]: <LICENSE>
+[LICENSES]: <./LICENSES/>
