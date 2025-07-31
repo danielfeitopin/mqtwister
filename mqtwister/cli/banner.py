@@ -2,14 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
+from mqtwister.cli import BANNER_WIDTH
+
 class Banner:
 
     LINES: list[str] = [
-        r" __  __  ___ _____          _    _____         ",
-        r"|  \/  |/ _ \_   _|_      _(_)__|_   _|__ _ __ ",
-        r"| |\/| | | | || | \ \ /\ / / / __|| |/ _ \ '__|",
-        r"| |  | | |_| || |  \ V  V /| \__ \| |  __/ |   ",
-        r"|_|  |_|\__\_\|_|   \_/\_/ |_|___/|_|\___|_|   ",
+        r" __  __  ___ _____          _    _____         ".center(BANNER_WIDTH),
+        r"|  \/  |/ _ \_   _|_      _(_)__|_   _|__ _ __ ".center(BANNER_WIDTH),
+        r"| |\/| | | | || | \ \ /\ / / / __|| |/ _ \ '__|".center(BANNER_WIDTH),
+        r"| |  | | |_| || |  \ V  V /| \__ \| |  __/ |   ".center(BANNER_WIDTH),
+        r"|_|  |_|\__\_\|_|   \_/\_/ |_|___/|_|\___|_|   ".center(BANNER_WIDTH),
     ]
 
     HEIGTH: int = len(LINES)

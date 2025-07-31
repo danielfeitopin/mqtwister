@@ -2,69 +2,58 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
-import sys
-from . import context
-from .config import TARGET_IP, INTERFACE_NAME, MQTT_PORT
-from .cli.banner import Banner
-from .processor.sniffer import get_sniffer
-from .processor.mqtt import packet_callback
-from .utils.logging import logger
-from .utils.network import get_arp_table, get_interface_mac
 
-# Display banner
-print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
-print('=' * Banner.WIDTH)
+def main(context: dict = {}) -> None:
+    """Main function to run the MQTwister CLI."""
 
-# Get ARP table
-logger.info("Getting ARP table...")
-context['ARP_TABLE'] = get_arp_table()
-logger.debug(f"ARP table: {context['ARP_TABLE']}")
+    # Display banner
+    from .cli.banner import Banner
+    print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
 
-# Get own MAC address
-context['OWN_MAC_ADDRESS'] = get_interface_mac(INTERFACE_NAME)
-if not context.get('OWN_MAC_ADDRESS'):
-    msg = f"MAC address not found for interface '{INTERFACE_NAME}'"
-    logger.error(msg)
-    print(msg)
-    sys.exit(1)
-print(f"Own MAC address: {context['OWN_MAC_ADDRESS']}")
+    # Retrieve and set context values
+    from .config import TARGET_IP, INTERFACE_NAME, MQTT_PORT
+    context['ifname'] = INTERFACE_NAME
+    # context['lmac'] = get_interface_mac(INTERFACE_NAME)
 
-# Get target MAC address
-context['TARGET_MAC_ADDRESS'] = context['ARP_TABLE'].get(TARGET_IP)
-if not context.get('TARGET_MAC_ADDRESS'):
-    msg = f"Target's MAC not found!"
-    logger.error(msg)
-    print(msg)
-    sys.exit(1)
-print(f"Target MAC address: {context['TARGET_MAC_ADDRESS']}")
+    # Show the main menu
+    from .cli.menu import show_menu
+    while True:
+        show_menu(context)
+        print()
 
-# Start sniffer
-msg = "Starting sniffer..."
-logger.info(msg)
-print(msg)
-sniffer = get_sniffer(INTERFACE_NAME, packet_callback, MQTT_PORT)
+    # Start sniffer
+    # msg = "Starting sniffer..."
+    # logger.info(msg)
+    # print(msg)
+    # sniffer = get_sniffer(INTERFACE_NAME, packet_callback, MQTT_PORT)
 
-try:
-    sniffer.start()
-    
-    if sniffer.exception:
-        raise sniffer.exception
-    
-    # Wait for user to stop the sniffer
-    input("Press ENTER to stop the sniffer...\n")
-    msg = "Stopping sniffer..."
-    logger.info(msg)
-    if sniffer.running:
-        sniffer.stop()
-    logger.info("Sniffer stopped.")
-    sys.exit(0)
+    #     sniffer.start()
 
-except KeyboardInterrupt:
-    sys.exit(0)
-    
-except PermissionError:
-    msg = "Permission denied."
-    logger.error(msg)
-    print(msg, end=" ")
-    print("Please run as root.")
-    sys.exit(1)
+    #     if sniffer.exception:
+    #         raise sniffer.exception
+
+    #     # Wait for user to stop the sniffer
+    #     input("Press ENTER to stop the sniffer...\n")
+    #     msg = "Stopping sniffer..."
+    #     logger.info(msg)
+    #     if sniffer.running:
+    #         sniffer.stop()
+    #     logger.info("Sniffer stopped.")
+    #     sys.exit(0)
+
+
+if __name__ == "__main__":
+
+    import sys
+    from .cli.messages import get_message as m
+    from .utils.logging import logger
+
+    try:
+        main()
+
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+    except PermissionError:
+        logger.error(m('error_permission_denied'))
+        sys.exit(1)
