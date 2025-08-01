@@ -36,6 +36,15 @@ MESSAGES: dict[str, str] = {  # Could be replaced by a localization system
     'prompt_set_ifname': "Enter the interface name: ",
     'info_set_ifname': "Interface name set to {}.",
 
+    'menu_op_set_port': "Set Listening Port.",
+    'prompt_set_port': "Enter the port to sniff (default 1883): ",
+    'info_set_port': "Listening port set to {}.",
+    'error_invalid_port': "Invalid port number. Please enter a valid port between 1 and 65535.",
+
+    'menu_op_start_mitm': "Start MITM.",
+    'starting_sniffer': "Starting sniffer.",
+    'info_starting_sniffer': "Starting sniffer on interface '{}' with MAC address '{}' and port '{}'.",
+
     # Network notifications
     'info_getting_arp_table': "Getting ARP table...",
     'debug_arp_table': "ARP table: {}",

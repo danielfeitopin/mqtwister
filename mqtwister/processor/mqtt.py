@@ -6,10 +6,11 @@ from scapy.all import Packet, sendp
 from scapy.contrib.mqtt import MQTT, MQTTConnect, MQTTPublish
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
-from .. import context
-from ..config import MQTT_PORT
-from ..processor.packet import get_layers, reassemble_packet, recalculate_values
-from ..processor.tampering import (
+
+from mqtwister.utils.network import get_arp_table
+from mqtwister.config import MQTT_PORT
+from mqtwister.processor.packet import get_layers, reassemble_packet, recalculate_values
+from mqtwister.processor.tampering import (
     alter_MQTTPublish_packet,
     value_to_zero,
     value_to_zeros
@@ -60,14 +61,14 @@ def process_MQTTPublish(packet: MQTT) -> None:
     return None
 
 
-def packet_callback(packet: Packet) -> None:
+def packet_callback(packet: Packet, context: dict) -> None:
 
     # Don't process not TCP packets
     if not packet.haslayer(TCP):
         return None
 
     # Don't process packets sent by the own host
-    if packet[Ether].src == context['OWN_MAC_ADDRESS']:
+    if packet[Ether].src == context['lmac']:
         return None
 
     # Only process MQTT or MQTT-related TCP packets
@@ -82,8 +83,8 @@ def packet_callback(packet: Packet) -> None:
         return None
 
     # Revert MAC spoofing
-    packet[Ether].src = context['OWN_MAC_ADDRESS']
-    packet[Ether].dst = context['ARP_TABLE'].get(packet[IP].dst)
+    packet[Ether].src = context['lmac']
+    packet[Ether].dst = get_arp_table().get(packet[IP].dst)
 
     if packet.haslayer(MQTTConnect):
         # packet.show()

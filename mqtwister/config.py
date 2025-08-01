@@ -8,7 +8,7 @@ from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 LOGGING_LEVEL: int | None = DEBUG
 
 # Host configuration
-INTERFACE_NAME: str = ''
+INTERFACE_NAME: str = 'Wi-Fi'
 
 # Target configuration
 TARGET_IP: str = ''

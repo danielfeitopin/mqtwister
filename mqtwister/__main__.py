@@ -10,14 +10,9 @@ def main(context: dict = {}) -> None:
     from .cli.banner import Banner
     print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
 
-    # Retrieve and set context values
-    from .config import TARGET_IP, INTERFACE_NAME, MQTT_PORT
-    context['ifname'] = INTERFACE_NAME
-    # context['lmac'] = get_interface_mac(INTERFACE_NAME)
-
     # Show the main menu
     from .cli.menu import show_menu
-    while True:
+    while context.get('show_menu', True):
         show_menu(context)
         print()
 
@@ -45,11 +40,22 @@ def main(context: dict = {}) -> None:
 if __name__ == "__main__":
 
     import sys
-    from .cli.messages import get_message as m
-    from .utils.logging import logger
+    from mqtwister.config import MQTT_PORT
+    from mqtwister.cli.messages import get_message as m
+    from mqtwister.utils.logging import logger
+
+    # Initialize context with default values
+    context: dict = {
+        'ifname': None,  # Interface name
+        'lmac': None,    # Local MAC address
+        'lport': MQTT_PORT,  # Listening port
+        'sniffer': None,  # Sniffer instance
+        'sniffer_running': False,  # Flag to check if sniffer is running
+        'show_menu': True,  # Flag to show the menu
+    }
 
     try:
-        main()
+        main(context)
 
     except KeyboardInterrupt:
         sys.exit(0)
