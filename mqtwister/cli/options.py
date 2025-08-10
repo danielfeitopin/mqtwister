@@ -119,15 +119,18 @@ def start_mitm(context: dict) -> None:
     try:
         print("Press ENTER to stop the sniffer...\n")
         context['sniffer'].start()
+
+        if context['sniffer'].exception:
+            raise context['sniffer'].exception
+
         context['sniffer_running'] = context['sniffer'].running
-        
+
         input()
         if context['sniffer'].running:
             context['sniffer'].stop()
         context['sniffer_running'] = context['sniffer'].running
-        
-        if context['sniffer'].exception:
-            raise context['sniffer'].exception
+        context['sniffer'] = None  # Clear sniffer instance
+
     except Exception as e:
         logger.error(e)
         sys.exit(-1)
@@ -160,7 +163,7 @@ def end_program() -> None:
     sys.exit(0)
 
 
-def get_options(context: dict) -> dict[str, tuple[callable, str, bool]]:
+def get_options() -> dict[str, tuple[callable, str, bool]]:
     """Return the available options for the menu."""
 
     # {'key': (function, description, requires_context)}

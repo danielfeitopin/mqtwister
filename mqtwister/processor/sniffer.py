@@ -11,7 +11,7 @@ from typing import Callable
 
 def get_sniffer(context: dict, prn: Callable = None) -> AsyncSniffer:
 
-    def __prn_wrapper(packet: Packet, context: dict) -> None:
+    def __prn_wrapper(packet: Packet) -> None:
         """Wrapper function to process packets with context."""
         prn(packet, context)
 

@@ -15,7 +15,7 @@ def show_menu(context: dict) -> None:
     TABLE_WIDTH: int = BANNER_WIDTH
 
     # Get available options
-    options: dict[str, tuple[callable, str, bool]] = get_options(context)
+    options: dict[str, tuple[callable, str, bool]] = get_options()
 
     # Display menu options in a formatted way
     table: str = '' \
