@@ -72,7 +72,8 @@ def packet_callback(packet: Packet, context: dict) -> None:
         return None
 
     # Only process MQTT or MQTT-related TCP packets
-    if packet[TCP].sport == MQTT_PORT or packet[TCP].dport == MQTT_PORT:
+    port: int | None = context.get('lport', MQTT_PORT)
+    if packet[TCP].sport == port or packet[TCP].dport == port:
         msg: str = f"[{'='*20}Received MQTT packet.{'='*20}]\n"
         msg += f"FROM: "
         msg += f"{packet[Ether].src}/{packet[IP].src}/{packet[TCP].sport}\n"
@@ -82,18 +83,20 @@ def packet_callback(packet: Packet, context: dict) -> None:
     else:
         return None
 
+    # Debugging
+    # packet.show()
+
     # Revert MAC spoofing
     packet[Ether].src = context['lmac']
     packet[Ether].dst = get_arp_table().get(packet[IP].dst)
 
     if packet.haslayer(MQTTConnect):
-        # packet.show()
         process_MQTTConnect(packet)
     elif packet.haslayer(MQTTPublish):
-        # packet.show()
         process_MQTTPublish(packet)
 
-    # packet.show2()
+    print("Processed packet:")
+    packet.show2()
 
-    sendp(packet)
+    sendp(packet, iface=context.get('ifname'))
     return None

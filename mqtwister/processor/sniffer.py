@@ -17,8 +17,8 @@ def get_sniffer(context: dict, prn: Callable = None) -> AsyncSniffer:
 
     ifname: str | None = context.get('ifname')
     lmac: str | None = context.get('lmac')
-    lport: int | None = context.get('lport', MQTT_PORT)
+    lport: int = context.get('lport', MQTT_PORT)
     logger.info(m('info_starting_sniffer', ifname, lmac, lport))
 
-    filter: str = f"tcp port {context.get('lport', lport)}"
+    filter: str = f"tcp port {lport}"
     return AsyncSniffer(iface=ifname, prn=__prn_wrapper, filter=filter, store=0)
