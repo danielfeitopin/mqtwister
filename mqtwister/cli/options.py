@@ -104,6 +104,64 @@ def ask_port(context: dict) -> None:
         logger.error(m('error_invalid_port'))
 
 
+def show_rules(context: dict) -> None:
+    """Display the current rules."""
+
+    # Print the rules in a formatted way
+    table: str = make_table(
+        headers=[
+            '#'.center(3),
+            m('th_rule_topic'),
+            m('th_rule_payload'),
+            m('th_rule_topic_op_name'),
+            m('th_rule_topic_op_args'),
+            m('th_rule_payload_op_name'),
+            m('th_rule_payload_op_args'),
+        ],
+        rows=[
+            [i, repr(rule.topic), repr(rule.payload), rule.topic_op[0],
+                repr(rule.topic_op[1]), rule.payload_op[0], repr(rule.payload_op[1])]
+            for i, rule in enumerate(context['rules'])],
+    )
+    print(table)
+
+
+def add_rule(context: dict) -> None:
+    """Add a new rule to the context."""
+
+    from mqtwister.processor.rules import Rule
+
+    rule_str: str = input(m('prompt_add_rule')).strip()
+
+    try:
+        rule: Rule = Rule.from_str(rule_str)
+        if rule.is_empty():
+            logger.warning(m('warning_empty_rule'))
+        elif rule in context['rules']:
+            logger.warning(m('warning_existing_rule'))
+        else:
+            context['rules'].append(rule)
+            logger.info(m('info_rule_added', rule))
+    except ValueError as e:
+        logger.error(m('error_invalid_rule', e))
+
+
+def del_rule(context: dict) -> None:
+    """Delete a rule from the context."""
+
+    if not context['rules']:
+        logger.warning(m('warning_no_rules'))
+        return
+
+    try:
+        i: int = int(input(m('prompt_del_rule')).strip())
+        rule = context['rules'].pop(i)
+        logger.info(m('info_rule_deleted', rule))
+    except (ValueError, IndexError):
+        logger.error(m('error_invalid_rule_number'))
+        return
+
+
 def start_mitm(context: dict) -> None:
     """Start the MitM with the current context."""
 
@@ -174,6 +232,9 @@ def get_options() -> dict[str, tuple[callable, str, bool]]:
         '4': (ask_ifname, m('menu_op_set_ifname'), True),
         '5': (ask_lmac, m('menu_op_set_lmac'), True),
         '6': (ask_port, m('menu_op_set_port'), True),
-        '7': (start_mitm, m('menu_op_start_mitm'), True),
+        '7': (show_rules, m('menu_op_show_rules'), True),
+        '8': (add_rule, m('menu_op_add_rule'), True),
+        '9': (del_rule, m('menu_op_del_rule'), True),
+        '0': (start_mitm, m('menu_op_start_mitm'), True),
         'Q': (end_program, m('menu_op_goodbye'), False),
     }

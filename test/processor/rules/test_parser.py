@@ -3,7 +3,8 @@ from mqtwister.processor.rules.parser import (
     _get_item,
     _get_topic,
     _get_payload,
-    _get_op
+    _get_op,
+    parse_tokens
 )
 
 VALID_TOPIC = '/smile'
@@ -70,3 +71,22 @@ def test_get_payload(token, expected):
 ])
 def test_get_op(item_type, token, expected):
     assert _get_op(token, item_type) == expected
+
+@pytest.mark.parametrize("tokens, expected", [
+    (
+        [
+            'topic="/x"',
+            'payload="x"',
+            'topic.map("a","b")',
+            'payload.replace("(",")")'
+        ],
+        {
+            'topic': '/x',
+            'payload': 'x',
+            'topic_op': ('map', ('a', 'b')),
+            'payload_op': ('replace', ('(', ')')),
+        }
+    )
+])
+def test_parse_tokens(tokens, expected):
+    assert parse_tokens(tokens) == expected

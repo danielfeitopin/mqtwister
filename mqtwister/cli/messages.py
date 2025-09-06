@@ -53,6 +53,28 @@ MESSAGES: dict[str, str] = {  # Could be replaced by a localization system
     'warning_mac_address_not_found': "MAC address not found for interface '{}'",
 
     'error_permission_denied': "Permission denied. Please run as administrator.",
+    
+    
+    # Rules
+    'menu_op_show_rules': "Show Rules.",
+    'th_rule_topic': "Rule Topic",
+    'th_rule_payload': "Rule Payload",
+    'th_rule_topic_op_name': "Topic Operation",
+    'th_rule_topic_op_args': "Topic Arguments",
+    'th_rule_payload_op_name': "Payload Operation",
+    'th_rule_payload_op_args': "Payload Arguments",
+
+    'menu_op_add_rule': "Add Rule.",
+    'prompt_add_rule': "Enter Rule: ",
+    'info_rule_added': "Rule added: {}",
+    'warning_empty_rule': "Empty rule, ignoring.",
+    'warning_existing_rule': "Rule already exists, ignoring.",
+    'error_invalid_rule': "Invalid rule format. Check syntax and data types.",
+
+    'menu_op_del_rule': "Delete Rule.",
+    'prompt_del_rule': "Enter the rule number to delete: ",
+    'info_rule_deleted': "Rule deleted: {}",
+    'error_invalid_rule_number': "Invalid rule index."
 }
 
 

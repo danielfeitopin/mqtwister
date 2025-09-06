@@ -24,9 +24,9 @@ def test_rule_creation(topic, payload, topic_op, payload_op):
             topic_op=("contains", "value"),
             payload_op=(None, None)
         ),
-        "<Rule: topic=\"test_topic\", payload=\"test_payload\", " \
-            + "topic_op=\"('contains', 'value')\", " \
-            + "payload_op=\"(None, None)\">"
+        "<Rule: topic=\"test_topic\", payload=\"test_payload\", "
+        + "topic_op=\"('contains', 'value')\", "
+        + "payload_op=\"(None, None)\">"
     ),
     (
         Rule(
@@ -35,9 +35,9 @@ def test_rule_creation(topic, payload, topic_op, payload_op):
             topic_op=(None, None),
             payload_op=("replace", "new_value")
         ),
-        "<Rule: topic=\"another_topic\", payload=\"another_payload\", " \
-            + "topic_op=\"(None, None)\", " \
-            + "payload_op=\"('replace', 'new_value')\">"
+        "<Rule: topic=\"another_topic\", payload=\"another_payload\", "
+        + "topic_op=\"(None, None)\", "
+        + "payload_op=\"('replace', 'new_value')\">"
     )
 ])
 def test_rule_repr(rule, expected_repr):
@@ -66,7 +66,44 @@ def test_rule_equality(rule1, rule2, are_equal):
 
     ('invalid rule line',
      Rule()),
+
+    ('topic="/x" payload="x" topic.map("a","b") payload.replace("(",")")',
+     Rule(topic="/x", payload="x", topic_op=("map", ("a", "b")), payload_op=("replace", ("(", ")"))))
 ])
 def test_rule_from_str(line, expected_rule):
     result = Rule.from_str(line)
     assert result == expected_rule
+
+
+@pytest.mark.parametrize("rule, topic, payload, matches", [
+
+    # Rule matches both topic and payload
+    (Rule(topic="test/topic", payload="test_payload"),
+     b"test/topic", b"test_payload", True),
+
+    # Rule matches topic but not payload
+    (Rule(topic="test/topic", payload="test_payload"),
+     b"test/topic", b"different_payload", False),
+
+    # Rule matches payload but not topic
+    (Rule(topic="test/topic", payload="test_payload"),
+     b"different/topic", b"test_payload", False),
+
+    # Rule matches neither topic nor payload
+    (Rule(topic="test/topic", payload="test_payload"),
+     b"different/topic", b"different_payload", False),
+
+    # Rule with no topic or payload matches any input
+    (Rule(),
+     b"any/topic", b"any_payload", True),
+
+    # Rule with only topic matches topic
+    (Rule(topic="test/topic"),
+     b"test/topic", b"any_payload", True),
+
+    # Rule with only payload matches payload
+    (Rule(payload="test_payload"),
+     b"any/topic", b"test_payload", True),
+])
+def test_rule_matches(rule, topic, payload, matches):
+    assert rule.matches(topic, payload) == matches

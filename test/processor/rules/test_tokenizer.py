@@ -40,8 +40,8 @@ from mqtwister.processor.rules.tokenizer import tokenize
 
     # Complex combination of functions and key-value pairs
     (
-        'topic="/x" payload="x" topic.map(a,b) payload.replace("(",")")',
-        ['topic="/x"', 'payload="x"', 'topic.map(a,b)', 'payload.replace("(",")")']
+        'topic="/x" payload="x" topic.map("a","b") payload.replace("(",")")',
+        ['topic="/x"', 'payload="x"', 'topic.map("a","b")', 'payload.replace("(",")")']
     )
 ])
 def test_tokenizer(input_line, expected_tokens):

@@ -49,6 +49,7 @@ if __name__ == "__main__":
         'ifname': None,  # Interface name
         'lmac': None,    # Local MAC address
         'lport': MQTT_PORT,  # Listening port
+        'rules': [],      # List of rules
         'sniffer': None,  # Sniffer instance
         'sniffer_running': False,  # Flag to check if sniffer is running
         'show_menu': True,  # Flag to show the menu
