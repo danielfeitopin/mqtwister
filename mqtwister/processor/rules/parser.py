@@ -15,16 +15,18 @@ def _get_payload(token: str) -> str | None:
     return _get_item(token, 'payload')
 
 
-def _get_op(token: str, item: str) -> tuple[str | None, str | None]:
+def _get_op(token: str, item: str) -> tuple[str | None, tuple | None]:
 
     op_name: str | None = None
-    op_args: str | None = None
+    op_args: tuple | None = None
 
     match = re.search(rf'{item}\.(\w+)\((.*)\)', token)
     if match:
         op_name = match.group(1)
         if (op_args := match.group(2)):
             op_args = literal_eval(match.group(2))
+            if op_args and not isinstance(op_args, tuple):
+                op_args = (op_args,)
 
     return (op_name, op_args)
 

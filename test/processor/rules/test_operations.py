@@ -1,6 +1,6 @@
 import pytest
-from mqtwister.processor.rules.operations import (
-    uppercase, lowercase, trim, replace, add_prefix, add_suffix, to_int, to_float
+from mqtwister.processor.tampering.operations import (
+    uppercase, lowercase, trim, replace, prepend, append, to_int, to_float
 )
 
 
@@ -17,15 +17,15 @@ def test_trim():
 
 
 def test_replace():
-    assert replace(b"hello world", b"world", b"there") == b"hello there"
+    assert replace(b"hello world", "world", "there") == b"hello there"
 
 
-def test_add_prefix():
-    assert add_prefix(b"world", b"hello ") == b"hello world"
+def test_prepend():
+    assert prepend(b"world", "hello ") == b"hello world"
 
 
-def test_add_suffix():
-    assert add_suffix(b"hello", b" world") == b"hello world"
+def test_append():
+    assert append(b"hello", " world") == b"hello world"
 
 
 def test_to_int():

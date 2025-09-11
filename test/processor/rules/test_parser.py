@@ -55,7 +55,7 @@ def test_get_payload(token, expected):
 @pytest.mark.parametrize("item_type, token, expected", [
 
     # Test case on topic operator with operator
-    ('topic', 'topic.append("/sad")', ('append', '/sad')),
+    ('topic', 'topic.append("/sad")', ('append', ('/sad',))),
 
     # Test case on topic operator without operator
     ('topic', 'payload.replace(")","(")', (None, None)),

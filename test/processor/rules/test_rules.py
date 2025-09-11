@@ -4,16 +4,22 @@ from mqtwister.processor.rules.parser import parse_tokens
 
 
 @pytest.mark.parametrize("topic, payload, topic_op, payload_op", [
-    ("test_topic", "test_payload", ("contains", "value"), (None, None)),
-    ("another_topic", "another_payload", (None, None), ("replace", "new_value")),
+    ("test_topic", "test_payload", ("contains", ("value",)), (None, None)),
+    ("another_topic", "another_payload", (None, None), ("replace", ("new_value",))),
 ])
 def test_rule_creation(topic, payload, topic_op, payload_op):
     rule = Rule(topic=topic, payload=payload,
                 topic_op=topic_op, payload_op=payload_op)
-    assert rule.topic == topic
-    assert rule.payload == payload
+    assert rule.topic == topic == rule.get_topic()
+    assert rule.topic_bytes == (topic.encode() if topic else b'')
+    assert rule.payload == payload == rule.get_payload()
+    assert rule.payload_bytes == (payload.encode() if payload else b'')
     assert rule.topic_op == topic_op
     assert rule.payload_op == payload_op
+    assert rule.get_topic_op_name() == topic_op[0]
+    assert rule.get_topic_op_values() == topic_op[1]
+    assert rule.get_payload_op_name() == payload_op[0]
+    assert rule.get_payload_op_values() == payload_op[1]
 
 
 @pytest.mark.parametrize("rule, expected_repr", [
@@ -21,23 +27,21 @@ def test_rule_creation(topic, payload, topic_op, payload_op):
         Rule(
             topic="test_topic",
             payload="test_payload",
-            topic_op=("contains", "value"),
+            topic_op=("contains", ("value",)),
             payload_op=(None, None)
         ),
         "<Rule: topic=\"test_topic\", payload=\"test_payload\", "
-        + "topic_op=\"('contains', 'value')\", "
-        + "payload_op=\"(None, None)\">"
+        + "topic_op=\"contains('value')\">"
     ),
     (
         Rule(
             topic="another_topic",
             payload="another_payload",
             topic_op=(None, None),
-            payload_op=("replace", "new_value")
+            payload_op=("replace", ("new_value",))
         ),
         "<Rule: topic=\"another_topic\", payload=\"another_payload\", "
-        + "topic_op=\"(None, None)\", "
-        + "payload_op=\"('replace', 'new_value')\">"
+        + "payload_op=\"replace('new_value')\">"
     )
 ])
 def test_rule_repr(rule, expected_repr):
@@ -45,10 +49,10 @@ def test_rule_repr(rule, expected_repr):
 
 
 @pytest.mark.parametrize("rule1, rule2, are_equal", [
-    (Rule("test_topic", "test_payload", ("contains", "value"), (None, None)),
-     Rule("test_topic", "test_payload", ("contains", "value"), (None, None)), True),
-    (Rule("test_topic", "test_payload", ("contains", "value"), (None, None)),
-     Rule("different_topic", "test_payload", ("contains", "value"), (None, None)), False),
+    (Rule("test_topic", "test_payload", ("contains", ("value",)), (None, None)),
+     Rule("test_topic", "test_payload", ("contains", ("value",)), (None, None)), True),
+    (Rule("test_topic", "test_payload", ("contains", ("value",)), (None, None)),
+     Rule("different_topic", "test_payload", ("contains", ("value",)), (None, None)), False),
 ])
 def test_rule_equality(rule1, rule2, are_equal):
     assert (rule1 == rule2) == are_equal
@@ -59,7 +63,7 @@ def test_rule_equality(rule1, rule2, are_equal):
      Rule(topic="test_topic", payload="test_payload")),
 
     ('topic="test_topic" payload="test_payload" topic.contains("value")',
-     Rule(topic="test_topic", payload="test_payload", topic_op=("contains", "value"))),
+     Rule(topic="test_topic", payload="test_payload", topic_op=("contains", ("value",)))),
 
     ('topic="value with \\"escaped quotes\\"" payload="simple payload"',
      Rule(topic='value with \\"escaped quotes\\"', payload="simple payload")),

@@ -1,44 +1,43 @@
-from mqtwister.processor.rules import Rule
 from typing import Callable
 
-# Generic operation
-def operation(topic: bytes | None = None, payload: bytes | None = None, rule: Rule = None) -> tuple[bytes | None, bytes | None]:
-    """
-    Generic operation that returns the topic and payload as is.
-    This can be used as a placeholder for operations that do not modify the values.
-    """
-    return topic, payload
 
 def uppercase(value: bytes) -> bytes:
     """Convierte el valor a mayúsculas si es bytes."""
     return value.upper()
 
+
 def lowercase(value: bytes) -> bytes:
     """Convierte el valor a minúsculas si es bytes."""
     return value.lower()
+
 
 def trim(value: bytes) -> bytes:
     """Elimina espacios al inicio y final si es bytes."""
     return value.strip()
 
-def replace(value: bytes, old: bytes, new: bytes) -> bytes:
+
+def replace(value: bytes, old: str, new: str, count: int = -1) -> bytes:
     """Reemplaza subcadenas en el valor si es bytes."""
-    return value.replace(old, new)
+    return value.replace(old.encode(), new.encode(), count)
 
-def add_prefix(value: bytes, prefix: bytes) -> bytes:
-    """Agrega un prefijo al valor si es bytes."""
-    return prefix + value
 
-def add_suffix(value: bytes, suffix: bytes) -> bytes:
+def append(value: bytes, suffix: str) -> bytes:
     """Agrega un sufijo al valor si es bytes."""
-    return value + suffix
+    return value + suffix.encode()
+
+
+def prepend(value: bytes, prefix: str) -> bytes:
+    """Agrega un prefijo al valor si es bytes."""
+    return prefix.encode() + value
+
 
 def to_int(value: bytes) -> int:
     """Convierte el valor a entero si es posible."""
     try:
-        return int(value.decode())
+        return int(value)
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to int")
+
 
 def to_float(value: bytes) -> float:
     """Convierte el valor a flotante si es posible."""
@@ -47,18 +46,22 @@ def to_float(value: bytes) -> float:
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to float")
 
+
 def truncate(value: bytes, length: int) -> bytes:
     """Truncates the value to the specified length if it is bytes."""
     return value[:length]
+
 
 def swap(value: bytes, part1: bytes, part2: bytes) -> bytes:
     """Swaps occurrences of part1 with part2 in the value if it is bytes."""
     return value.replace(part1, b"TEMP_SWAP").replace(part2, part1).replace(b"TEMP_SWAP", part2)
 
+
 def encode_base64(value: bytes) -> bytes:
     """Encodes the value in base64 if it is bytes."""
     import base64
     return base64.b64encode(value)
+
 
 def decode_base64(value: bytes) -> bytes:
     """Decodes the value from base64 if it is bytes."""
@@ -68,13 +71,14 @@ def decode_base64(value: bytes) -> bytes:
     except (ValueError, TypeError):
         raise ValueError(f"Cannot decode {value} from base64")
 
-OPERATIONS: dict[str, Callable[[bytes], bytes]] = {
+
+OPERATIONS: dict[str, Callable] = {
     "uppercase": uppercase,
     "lowercase": lowercase,
     "trim": trim,
     "replace": replace,
-    "add_prefix": add_prefix,
-    "add_suffix": add_suffix,
+    "append": append,
+    "prepend": prepend,
     "to_int": to_int,
     "to_float": to_float,
     "truncate": truncate,
@@ -82,3 +86,25 @@ OPERATIONS: dict[str, Callable[[bytes], bytes]] = {
     "encode_base64": encode_base64,
     "decode_base64": decode_base64,
 }
+
+
+def call_operation(item: bytes, op_name: str, op_args: tuple) -> bytes:
+    """
+    Calls the operation function by name with the provided value and arguments.
+    """
+
+    # Set default new value to the original item
+    new_value: bytes = item
+
+    try:
+
+        # Call the operation function if it exists
+        if op_func := OPERATIONS.get(op_name):
+            new_value = op_func(item, *op_args)
+
+    except:
+
+        # If operation fails, keep the original value
+        pass
+
+    return new_value

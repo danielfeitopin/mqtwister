@@ -107,6 +107,11 @@ def ask_port(context: dict) -> None:
 def show_rules(context: dict) -> None:
     """Display the current rules."""
 
+    from mqtwister.processor.rules import Rule
+
+    # Get rules from context
+    rules: list[Rule] = context.setdefault('rules', [])
+
     # Print the rules in a formatted way
     table: str = make_table(
         headers=[
@@ -119,9 +124,18 @@ def show_rules(context: dict) -> None:
             m('th_rule_payload_op_args'),
         ],
         rows=[
-            [i, repr(rule.topic), repr(rule.payload), rule.topic_op[0],
-                repr(rule.topic_op[1]), rule.payload_op[0], repr(rule.payload_op[1])]
-            for i, rule in enumerate(context['rules'])],
+            [
+                i,
+                repr(rule.get_topic()),
+                repr(rule.get_payload()),
+                rule.get_topic_op_name(),
+                f"({', '.join(repr(arg)
+                    for arg in rule.get_topic_op_values() or ())})",
+                rule.get_payload_op_name(),
+                f"({', '.join(repr(arg)
+                    for arg in rule.get_payload_op_values() or ())})",
+            ] for i, rule in enumerate(rules)
+        ],
     )
     print(table)
 
@@ -167,7 +181,7 @@ def start_mitm(context: dict) -> None:
 
     # Start the sniffer
     from mqtwister.processor.sniffer import get_sniffer
-    from mqtwister.processor.mqtt import packet_callback as prn
+    from mqtwister.processor import packet_callback as prn
 
     # Ensure sniffer is initialized in the context
     if not context.get('sniffer'):
@@ -194,6 +208,24 @@ def start_mitm(context: dict) -> None:
         sys.exit(-1)
     except KeyboardInterrupt:
         sys.exit(0)
+
+
+def show_credentials(context: dict) -> None:
+    """Display the captured credentials."""
+
+    # Print the rules in a formatted way
+    table: str = make_table(
+        headers=[
+            '#'.center(3),
+            m('th_credential_client_id'),
+            m('th_credential_username'),
+            m('th_credential_password'),
+        ],
+        rows=[
+            [i, cred[0], cred[1], cred[2]]
+            for i, cred in enumerate(context['credentials'])],
+    )
+    print(table)
 
 
 def check_config(context: dict) -> None:
@@ -226,6 +258,7 @@ def get_options() -> dict[str, tuple[callable, str, bool]]:
 
     # {'key': (function, description, requires_context)}
     return {
+        '0': (start_mitm, m('menu_op_start_mitm'), True),
         '1': (show_config, m('menu_op_show_config'), True),
         '2': (show_ARP_table, m('menu_op_show_arp_table'), False),
         '3': (show_interfaces, m('menu_op_show_interfaces'), False),
@@ -235,6 +268,6 @@ def get_options() -> dict[str, tuple[callable, str, bool]]:
         '7': (show_rules, m('menu_op_show_rules'), True),
         '8': (add_rule, m('menu_op_add_rule'), True),
         '9': (del_rule, m('menu_op_del_rule'), True),
-        '0': (start_mitm, m('menu_op_start_mitm'), True),
+        '10': (show_credentials, m('menu_op_show_credentials'), True),
         'Q': (end_program, m('menu_op_goodbye'), False),
     }

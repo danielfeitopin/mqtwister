@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
-
 def main(context: dict = {}) -> None:
     """Main function to run the MQTwister CLI."""
 
@@ -49,6 +48,8 @@ if __name__ == "__main__":
 
     # Initialize context with default values
     context: dict = {
+        # Set of detected credentials {(id, user, pwd)...}
+        'credentials': set(),
         'ifname': None,  # Interface name
         'lmac': None,    # Local MAC address
         'lport': MQTT_PORT,  # Listening port
