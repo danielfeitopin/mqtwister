@@ -1,5 +1,6 @@
-from mqtwister.config import DEFAULT_LANGUAGE
+from mqtwister.config import DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES
 from mqtwister.utils.logging import logger
+from importlib import import_module
 
 
 class LanguageManager:
@@ -10,18 +11,19 @@ class LanguageManager:
     @classmethod
     def set_language(cls, lang: str) -> None:
         """Set the current language and load corresponding messages."""
-        cls.language = lang
-
-        if lang == 'en':
-            from .en import MESSAGES
-        elif lang == 'es':
-            from .es import MESSAGES
-        else:
-            from .en import MESSAGES  # Fallback to English
+        
+        # Validate language
+        if lang not in SUPPORTED_LANGUAGES:
             logger.warning(
-                f"Language '{lang}' not supported. Falling back to English.")
-
-        cls.messages = MESSAGES
+                f"Language '{lang}' not supported. Falling back to default language '{DEFAULT_LANGUAGE}'.")
+            lang = DEFAULT_LANGUAGE
+            
+        # Set class language
+        cls.language = lang
+        
+        # Retrieve messages
+        lang_module = import_module(f'.{lang}', package='mqtwister.lang')
+        cls.messages = getattr(lang_module, 'MESSAGES', {})
 
     @classmethod
     def get_message(cls, key: str, *args) -> str:
