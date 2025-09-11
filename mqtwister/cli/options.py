@@ -4,7 +4,7 @@
 
 import sys
 from mqtwister.cli import BANNER_WIDTH
-from mqtwister.cli.messages import get_message as m
+from mqtwister.lang import get_message as m
 from mqtwister.cli.tables import make_table
 from mqtwister.utils.logging import logger
 from mqtwister.utils.network import (

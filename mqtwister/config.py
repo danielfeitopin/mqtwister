@@ -4,6 +4,9 @@
 
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
+# Default language
+DEFAULT_LANGUAGE: str = 'en'
+
 # Debugging
 LOGGING_LEVEL: int | None = DEBUG
 

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 from mqtwister.config import MQTT_PORT
-from mqtwister.cli.messages import get_message as m
+from mqtwister.lang import get_message as m
 from mqtwister.utils.logging import logger
 from scapy.all import Packet, AsyncSniffer
 from typing import Callable

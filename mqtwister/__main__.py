@@ -40,8 +40,11 @@ def main(context: dict = {}) -> None:
 if __name__ == "__main__":
 
     import sys
-    from mqtwister.config import MQTT_PORT
-    from mqtwister.cli.messages import get_message as m
+    from mqtwister.config import MQTT_PORT, DEFAULT_LANGUAGE
+
+    from mqtwister.lang import LanguageManager, get_message as m
+    LanguageManager.set_language(DEFAULT_LANGUAGE)
+
     from mqtwister.utils.logging import logger
 
     # Initialize context with default values

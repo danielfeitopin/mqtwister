@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
-from mqtwister.cli.messages import get_message
+from mqtwister.lang import get_message as m
 
 
 class Notifier:
@@ -14,7 +14,7 @@ class Notifier:
     def notify(cls, key, *args, force=False):
         """Prints a message if notifications are not paused."""
         if cls.NOTIFICATIONS_ON or force:
-            print(get_message(key, *args))
+            print(m(key, *args))
 
     @classmethod
     def enable_notifications(cls) -> None:
