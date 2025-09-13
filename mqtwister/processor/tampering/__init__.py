@@ -5,6 +5,8 @@
 from scapy.contrib.mqtt import MQTTPublish
 from mqtwister.processor.rules import Rule
 from mqtwister.processor.tampering.operations import call_operation
+from mqtwister.utils.logging import logger
+from mqtwister.lang import get_message as m
 
 
 def alter_MQTTPublish_packet(packet: MQTTPublish, rules: list[Rule]) -> None:
@@ -33,11 +35,12 @@ def alter_MQTTPublish_packet(packet: MQTTPublish, rules: list[Rule]) -> None:
                 new_payload: bytes = call_operation(payload, payload_op, args)
                 packet[MQTTPublish].value = new_payload
 
-            # Print message
-            msg: str = f"Message MQTT [topic:message]: " \
-                + f"{topic.decode()}:{payload.decode()} -> " \
-                + f"{new_topic.decode()}:{new_payload.decode()}"
-            print(msg)
+            # Log message
+            logger.info(m(
+                'info_mqtt_rule_applied', rule,
+                topic.decode(), payload.decode(),
+                new_topic.decode(), new_payload.decode()
+            ))
 
             break
 

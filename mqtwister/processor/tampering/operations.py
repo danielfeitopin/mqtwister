@@ -15,6 +15,8 @@ def trim(value: bytes) -> bytes:
     """Elimina espacios al inicio y final si es bytes."""
     return value.strip()
 
+def set_value(value: bytes, new_value: str) -> bytes:
+    return new_value.encode()
 
 def replace(value: bytes, old: str, new: str, count: int = -1) -> bytes:
     """Reemplaza subcadenas en el valor si es bytes."""
@@ -73,18 +75,19 @@ def decode_base64(value: bytes) -> bytes:
 
 
 OPERATIONS: dict[str, Callable] = {
-    "uppercase": uppercase,
-    "lowercase": lowercase,
-    "trim": trim,
-    "replace": replace,
-    "append": append,
-    "prepend": prepend,
-    "to_int": to_int,
-    "to_float": to_float,
-    "truncate": truncate,
-    "swap": swap,
-    "encode_base64": encode_base64,
-    "decode_base64": decode_base64,
+    'uppercase': uppercase,
+    'lowercase': lowercase,
+    'trim': trim,
+    'set': set_value,
+    'replace': replace,
+    'append': append,
+    'prepend': prepend,
+    'to_int': to_int,
+    'to_float': to_float,
+    'truncate': truncate,
+    'swap': swap,
+    'encode_base64': encode_base64,
+    'decode_base64': decode_base64,
 }
 
 

