@@ -96,7 +96,7 @@ MESSAGES.update({
 
 # Sniffer and tampering notifications
 MESSAGES.update({
-    'debug_mqtt_packet_received': "MQTT packet received from '{}'/'{}'/'{}' to '{}'/'{}'/'{}'.",
+    'debug_mqtt_packet_received': "MQTT '{}' from '{}'/'{}'/'{}' to '{}'/'{}'/'{}'.",
     'info_mqtt_rule_applied': "MQTT rule applied: ({}) '{}':'{}' -> '{}':'{}'.",
     'info_credentials_found': "Credentials found!: Client ID: '{}', Username: '{}', Password: '{}'",
 })

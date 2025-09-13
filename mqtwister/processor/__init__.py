@@ -3,7 +3,9 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 from scapy.all import Packet, sendp
-from scapy.contrib.mqtt import MQTT, MQTTConnect, MQTTPublish
+from scapy.contrib.mqtt import (
+    MQTT, MQTTConnect, MQTTPublish, CONTROL_PACKET_TYPE 
+)
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 
@@ -75,7 +77,7 @@ def packet_callback(packet: Packet, context: dict) -> None:
         return None
 
     # Only process MQTT or MQTT-related TCP packets to the listening port
-    lport: int | None = context.get('lport', MQTT_PORT)
+    lport: int = context.get('lport', MQTT_PORT)
     if not (lport in {packet[TCP].sport, packet[TCP].dport}):
         return None
 
@@ -91,6 +93,7 @@ def packet_callback(packet: Packet, context: dict) -> None:
     if packet.haslayer(MQTT):
         logger.debug(m(
             'debug_mqtt_packet_received',
+            CONTROL_PACKET_TYPE.get(packet[MQTT].type, ''),
             ether_src, packet[IP].src, packet[TCP].sport,
             packet[Ether].dst, packet[IP].dst, packet[TCP].dport
         ))
