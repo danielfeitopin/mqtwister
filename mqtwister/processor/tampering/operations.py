@@ -89,25 +89,3 @@ OPERATIONS: dict[str, Callable] = {
     'encode_base64': encode_base64,
     'decode_base64': decode_base64,
 }
-
-
-def call_operation(item: bytes, op_name: str, op_args: tuple) -> bytes:
-    """
-    Calls the operation function by name with the provided value and arguments.
-    """
-
-    # Set default new value to the original item
-    new_value: bytes = item
-
-    try:
-
-        # Call the operation function if it exists
-        if op_func := OPERATIONS.get(op_name):
-            new_value = op_func(item, *op_args)
-
-    except:
-
-        # If operation fails, keep the original value
-        pass
-
-    return new_value

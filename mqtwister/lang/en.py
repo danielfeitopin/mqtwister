@@ -58,6 +58,7 @@ MESSAGES.update({
     # Options - Delete rule
     'menu_op_del_rule': "Delete Rule.",
     'prompt_del_rule': "Enter the rule number to delete: ",
+    'warning_no_rules': "No rules to delete.",
     'info_rule_deleted': "Rule deleted: {}",
     'error_invalid_rule_number': "Invalid rule index.",
 

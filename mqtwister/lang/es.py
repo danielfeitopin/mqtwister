@@ -58,6 +58,7 @@ MESSAGES.update({
     # Options - Delete rule
     'menu_op_del_rule': "Borrar regla.",
     'prompt_del_rule': "Introduzca el número de regla a eliminar: ",
+    'warning_no_rules': "No hay reglas para eliminar.",
     'info_rule_deleted': "Regla eliminada: {}",
     'error_invalid_rule_number': "Índice de regla inválido.",
 

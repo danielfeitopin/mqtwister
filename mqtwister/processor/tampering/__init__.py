@@ -2,48 +2,26 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
-from scapy.contrib.mqtt import MQTTPublish
-from mqtwister.processor.rules import Rule
-from mqtwister.processor.tampering.operations import call_operation
-from mqtwister.utils.logging import logger
-from mqtwister.lang import get_message as m
+from .operations import OPERATIONS
 
 
-def alter_MQTTPublish_packet(packet: MQTTPublish, rules: list[Rule]) -> None:
+def call_operation(item: bytes, op_name: str, op_args: tuple) -> bytes:
+    """
+    Calls the operation function by name with the provided value and arguments.
+    """
 
-    # Get MQTT topic and message
-    topic: bytes = packet[MQTTPublish].topic
-    payload: bytes = packet[MQTTPublish].value
+    # Set default new value to the original item
+    new_value: bytes = item
 
-    # Match and apply rules
-    for rule in rules:
+    try:
 
-        if rule.matches(topic, payload):
+        # Call the operation function if it exists
+        if op_func := OPERATIONS.get(op_name):
+            new_value = op_func(item, *op_args)
 
-            # Set default new values
-            new_topic: bytes = topic
-            new_payload: bytes = payload
+    except:
 
-            # Apply operations
-            if topic_op := rule.get_topic_op_name():
-                new_topic: bytes = call_operation(
-                    topic, topic_op, rule.get_topic_op_values()
-                )
-                packet[MQTTPublish].topic = new_topic
+        # If operation fails, keep the original value
+        pass
 
-            if payload_op := rule.get_payload_op_name():
-                new_payload: bytes = call_operation(
-                    payload, payload_op, rule.get_payload_op_values()
-                )
-                packet[MQTTPublish].value = new_payload
-
-            # Log message
-            logger.info(m(
-                'info_mqtt_rule_applied', rule,
-                topic, payload,
-                new_topic, new_payload
-            ))
-
-            break
-
-    return None
+    return new_value

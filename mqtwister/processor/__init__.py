@@ -10,10 +10,8 @@ from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 
 from mqtwister.config import MQTT_PORT
-from mqtwister.processor.tampering import alter_MQTTPublish_packet
-from mqtwister.processor.tampering.packet import (
-    get_layers, reassemble_packet, recalculate_values
-)
+from mqtwister.processor.rules import Rule
+from mqtwister.processor.tampering import call_operation
 from mqtwister.utils.logging import logger
 from mqtwister.utils.network import get_arp_table
 from mqtwister.lang import get_message as m
@@ -44,24 +42,63 @@ def process_MQTTConnect(packet: MQTT, credentials: set) -> None:
     return None
 
 
-def process_MQTTPublish(packet: MQTT, rules: dict) -> None:
+def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
 
     # Get MQTT message layers
-    layers: list[Packet] = get_layers(packet[MQTT])
+    # layers: list[Packet] = get_layers(packet[MQTT])
 
     # DEBUG
     # print(f"Layers ({len(layers)}): {layers}")
 
-    for layer in layers:
-        if isinstance(layer, MQTTPublish):
-            alter_MQTTPublish_packet(layer, rules)
+    # for layer in layers:
+    #     if isinstance(layer, MQTTPublish):
+    #         alter_MQTTPublish_packet(layer, rules)
 
     # Reassemble MQTT message layers
-    packet[MQTT] = reassemble_packet(layers)
+    # packet[MQTT] = reassemble_packet(layers)
+    packet[MQTT].show()
+    
+    # Set default new values
+    new_topic: bytes = packet[MQTTPublish].topic
+    new_payload: bytes = packet[MQTTPublish].value
+    
+    for rule in rules:
+        if rule.matches(packet[MQTTPublish].topic, packet[MQTTPublish].value):
+            
+            if rule.get_topic_op_name():
+                new_topic = call_operation(
+                    new_topic,
+                    rule.get_topic_op_name(),
+                    rule.get_topic_op_values()
+                )
+
+            if rule.get_payload_op_name():
+                new_payload = call_operation(
+                    new_payload,
+                    rule.get_payload_op_name(),
+                    rule.get_payload_op_values()
+                )
+
+            break
+    
+    # Log message
+    logger.debug(m(
+        'info_mqtt_rule_applied', rule,
+        packet[MQTTPublish].topic, packet[MQTTPublish].value,
+        new_topic, new_payload
+    ))
+    
+    # Apply changes to the packet
+    packet[MQTTPublish].topic = new_topic
+    packet[MQTTPublish].value = new_payload
 
     # Recalculate lengths and checksums
+    # recalculate_values(packet)
+    del packet[MQTTPublish].length
     del packet[MQTT].len
-    recalculate_values(packet)
+    del packet[TCP].chksum
+    del packet[IP].len
+    del packet[IP].chksum
 
     return None
 
