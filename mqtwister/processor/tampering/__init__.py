@@ -26,20 +26,22 @@ def alter_MQTTPublish_packet(packet: MQTTPublish, rules: list[Rule]) -> None:
 
             # Apply operations
             if topic_op := rule.get_topic_op_name():
-                args: tuple = rule.get_topic_op_values() or ()
-                new_topic: bytes = call_operation(topic, topic_op, args)
+                new_topic: bytes = call_operation(
+                    topic, topic_op, rule.get_topic_op_values()
+                )
                 packet[MQTTPublish].topic = new_topic
 
             if payload_op := rule.get_payload_op_name():
-                args: tuple = rule.get_payload_op_values() or ()
-                new_payload: bytes = call_operation(payload, payload_op, args)
+                new_payload: bytes = call_operation(
+                    payload, payload_op, rule.get_payload_op_values()
+                )
                 packet[MQTTPublish].value = new_payload
 
             # Log message
             logger.info(m(
                 'info_mqtt_rule_applied', rule,
-                topic.decode(), payload.decode(),
-                new_topic.decode(), new_payload.decode()
+                topic, payload,
+                new_topic, new_payload
             ))
 
             break

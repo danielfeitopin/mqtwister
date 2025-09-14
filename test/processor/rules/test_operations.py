@@ -17,15 +17,15 @@ def test_trim():
 
 
 def test_replace():
-    assert replace(b"hello world", "world", "there") == b"hello there"
+    assert replace(b"hello world", b"world", b"there") == b"hello there"
 
 
 def test_prepend():
-    assert prepend(b"world", "hello ") == b"hello world"
+    assert prepend(b"world", b"hello ") == b"hello world"
 
 
 def test_append():
-    assert append(b"hello", " world") == b"hello world"
+    assert append(b"hello", b" world") == b"hello world"
 
 
 def test_to_int():

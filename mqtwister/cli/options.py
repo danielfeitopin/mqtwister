@@ -25,7 +25,6 @@ def show_config(context: dict) -> None:
         + f"Interface Name: {context.get('ifname')}\n" \
         + f"Local MAC Address: {context.get('lmac')}\n" \
         + f"Listening Port: {context.get('lport')}\n" \
-        + f"Target MAC Address: {context.get('TARGET_MAC_ADDRESS')}\n" \
         + f"Sniffer running: {'Yes' if context.get('sniffer') else 'No'}\n" \
         + f"{'=' * TABLE_WIDTH}\n"
     print(table, end='')
@@ -126,14 +125,12 @@ def show_rules(context: dict) -> None:
         rows=[
             [
                 i,
-                repr(rule.get_topic()),
-                repr(rule.get_payload()),
-                rule.get_topic_op_name(),
-                f"({', '.join(repr(arg)
-                    for arg in rule.get_topic_op_values() or ())})",
-                rule.get_payload_op_name(),
-                f"({', '.join(repr(arg)
-                    for arg in rule.get_payload_op_values() or ())})",
+                rule.get_topic() or '',
+                rule.get_payload() or '',
+                rule.get_topic_op_name() or '',
+                rule.get_topic_op_args_string() or '',
+                rule.get_payload_op_name() or '',
+                rule.get_payload_op_args_string() or '',
             ] for i, rule in enumerate(rules)
         ],
     )

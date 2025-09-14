@@ -15,26 +15,6 @@ def main(context: dict = {}) -> None:
         show_menu(context)
         print()
 
-    # Start sniffer
-    # msg = "Starting sniffer..."
-    # logger.info(msg)
-    # print(msg)
-    # sniffer = get_sniffer(INTERFACE_NAME, packet_callback, MQTT_PORT)
-
-    #     sniffer.start()
-
-    #     if sniffer.exception:
-    #         raise sniffer.exception
-
-    #     # Wait for user to stop the sniffer
-    #     input("Press ENTER to stop the sniffer...\n")
-    #     msg = "Stopping sniffer..."
-    #     logger.info(msg)
-    #     if sniffer.running:
-    #         sniffer.stop()
-    #     logger.info("Sniffer stopped.")
-    #     sys.exit(0)
-
 
 if __name__ == "__main__":
 

@@ -15,22 +15,22 @@ def trim(value: bytes) -> bytes:
     """Elimina espacios al inicio y final si es bytes."""
     return value.strip()
 
-def set_value(value: bytes, new_value: str) -> bytes:
-    return new_value.encode()
+def set_value(value: bytes, new_value: bytes) -> bytes:
+    return new_value
 
-def replace(value: bytes, old: str, new: str, count: int = -1) -> bytes:
+def replace(value: bytes, old: bytes, new: bytes, count: int = -1) -> bytes:
     """Reemplaza subcadenas en el valor si es bytes."""
-    return value.replace(old.encode(), new.encode(), count)
+    return value.replace(old, new, count)
 
 
-def append(value: bytes, suffix: str) -> bytes:
+def append(value: bytes, suffix: bytes) -> bytes:
     """Agrega un sufijo al valor si es bytes."""
-    return value + suffix.encode()
+    return value + suffix
 
 
-def prepend(value: bytes, prefix: str) -> bytes:
+def prepend(value: bytes, prefix: bytes) -> bytes:
     """Agrega un prefijo al valor si es bytes."""
-    return prefix.encode() + value
+    return prefix + value
 
 
 def to_int(value: bytes) -> int:

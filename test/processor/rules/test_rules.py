@@ -1,6 +1,6 @@
 import pytest
+import re
 from mqtwister.processor.rules import Rule
-from mqtwister.processor.rules.parser import parse_tokens
 
 
 @pytest.mark.parametrize("topic, payload, topic_op, payload_op", [
@@ -11,15 +11,25 @@ def test_rule_creation(topic, payload, topic_op, payload_op):
     rule = Rule(topic=topic, payload=payload,
                 topic_op=topic_op, payload_op=payload_op)
     assert rule.topic == topic == rule.get_topic()
-    assert rule.topic_bytes == (topic.encode() if topic else b'')
+    assert rule.topic_pattern == (
+        re.compile(topic.encode()) if topic else None)
     assert rule.payload == payload == rule.get_payload()
-    assert rule.payload_bytes == (payload.encode() if payload else b'')
-    assert rule.topic_op == topic_op
-    assert rule.payload_op == payload_op
+    assert rule.payload_pattern == (re.compile(
+        payload.encode()) if payload else None)
     assert rule.get_topic_op_name() == topic_op[0]
-    assert rule.get_topic_op_values() == topic_op[1]
     assert rule.get_payload_op_name() == payload_op[0]
-    assert rule.get_payload_op_values() == payload_op[1]
+    assert rule.get_topic_op_values() == (
+        tuple(
+            item.encode() if isinstance(item, str) else item
+            for item in topic_op[1]
+        ) if topic_op[1] else ()
+    )
+    assert rule.get_payload_op_values() == (
+        tuple(
+            item.encode() if isinstance(item, str) else item
+            for item in payload_op[1]
+        ) if payload_op[1] else ()
+    )
 
 
 @pytest.mark.parametrize("rule, expected_repr", [

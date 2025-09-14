@@ -3,7 +3,8 @@ from ast import literal_eval
 
 
 def _get_item(token: str, item: str) -> str | None:
-    match = re.search(rf'{item}="(.*)"', token)
+    pattern = re.compile(rf'{item}="(.*)"')
+    match = pattern.search(token)
     return match.group(1) if match else None
 
 
@@ -17,10 +18,11 @@ def _get_payload(token: str) -> str | None:
 
 def _get_op(token: str, item: str) -> tuple[str | None, tuple | None]:
 
+    pattern = re.compile(rf'{item}\.(\w+)\((.*)\)')
     op_name: str | None = None
     op_args: tuple | None = None
 
-    match = re.search(rf'{item}\.(\w+)\((.*)\)', token)
+    match = pattern.search(token)
     if match:
         op_name = match.group(1)
         if (op_args := match.group(2)):
