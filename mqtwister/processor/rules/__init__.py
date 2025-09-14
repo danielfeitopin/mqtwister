@@ -27,15 +27,15 @@ class Rule:
             + ')' if payload_op[0] else None
 
         # Encode string arguments for better efficiency in operations
-        self.topic_op_args: tuple = tuple(
+        self.topic_op_args: tuple | None = tuple(
             item.encode() if isinstance(item, str) else item
             for item in topic_op[1]
-        ) if topic_op[1] else ()
+        ) if topic_op[1] else () if topic_op[0] else None
 
-        self.payload_op_args: tuple = tuple(
+        self.payload_op_args: tuple | None = tuple(
             item.encode() if isinstance(item, str) else item
             for item in payload_op[1]
-        ) if payload_op[1] else ()
+        ) if payload_op[1] else () if payload_op[0] else None
 
     # Getters
     def get_topic(self) -> str | None:

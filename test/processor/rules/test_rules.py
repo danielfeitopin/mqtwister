@@ -18,18 +18,26 @@ def test_rule_creation(topic, payload, topic_op, payload_op):
         payload.encode()) if payload else None)
     assert rule.get_topic_op_name() == topic_op[0]
     assert rule.get_payload_op_name() == payload_op[0]
-    assert rule.get_topic_op_values() == (
-        tuple(
-            item.encode() if isinstance(item, str) else item
-            for item in topic_op[1]
-        ) if topic_op[1] else ()
-    )
-    assert rule.get_payload_op_values() == (
-        tuple(
-            item.encode() if isinstance(item, str) else item
-            for item in payload_op[1]
-        ) if payload_op[1] else ()
-    )
+    
+    if topic_op[0]:
+        assert rule.get_topic_op_values() == (
+            tuple(
+                item.encode() if isinstance(item, str) else item
+                for item in topic_op[1]
+            ) if topic_op[1] else ()
+        )
+    else:
+        assert rule.get_topic_op_values() is None
+        
+    if payload_op[0]:
+        assert rule.get_payload_op_values() == (
+            tuple(
+                item.encode() if isinstance(item, str) else item
+                for item in payload_op[1]
+            ) if payload_op[1] else ()
+        )
+    else:
+        assert rule.get_payload_op_values() is None
 
 
 @pytest.mark.parametrize("rule, expected_repr", [
