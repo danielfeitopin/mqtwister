@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
+import ipaddress
 import psutil
 import re
 import subprocess
@@ -38,6 +39,11 @@ def get_arp_table() -> dict[str, str]:
                 arp_table[ip] = format_mac_address(mac)
     except Exception as e:
         print(f"Error reading ARP table: {e}")
+
+    # Sort the ARP table by IP address
+    arp_table = dict(sorted(arp_table.items(),
+                            key=lambda item: ipaddress.ip_address(item[0])))
+
     return arp_table
 
 
@@ -54,3 +60,10 @@ def get_interface_mac(interface_name: str) -> str | None:
                 mac: str = format_mac_address(snicaddr.address)
                 break
     return mac
+
+
+def validate_mac_address(mac: str) -> bool:
+    """Validate a MAC address format."""
+
+    mac_regex: str = r'^([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2})$'
+    return bool(re.match(mac_regex, mac))
