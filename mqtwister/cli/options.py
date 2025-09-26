@@ -4,7 +4,7 @@
 
 import sys
 from mqtwister.cli import BANNER_WIDTH
-from mqtwister.cli.messages import get_message as m
+from mqtwister.lang import get_message as m
 from mqtwister.cli.tables import make_table
 from mqtwister.utils.logging import logger
 from mqtwister.utils.network import (
@@ -12,25 +12,22 @@ from mqtwister.utils.network import (
 )
 
 
-def ask_lmac(context: dict) -> None:
-    """Set the local MAC address in the context."""
+def show_config(context: dict) -> None:
+    """Display the current configuration."""
 
-    # Ask the user for a MAC address
-    mac_address: str = input(m('prompt_set_lmac')).strip()
-    context['lmac'] = mac_address
-    logger.info(m('info_set_lmac', mac_address))
+    TABLE_WIDTH: int = BANNER_WIDTH
 
-
-def ask_ifname(context: dict) -> None:
-    """Set the interface name in the context."""
-
-    # Ask the user for an interface name
-    interface_name: str = input(m('prompt_set_ifname')).strip()
-    context['ifname'] = interface_name
-    context['lmac'] = get_interface_mac(interface_name)
-    logger.info(m('info_set_ifname', interface_name))
-    if not context['lmac']:
-        logger.warning(m('warning_mac_address_not_found', interface_name))
+    # Print the current configuration in a formatted way
+    table: str = '' \
+        + f"{'=' * TABLE_WIDTH}\n" \
+        + f"{m('th_config'):^{TABLE_WIDTH}}\n" \
+        + f"{'-' * TABLE_WIDTH}\n" \
+        + f"Interface Name: {context.get('ifname')}\n" \
+        + f"Local MAC Address: {context.get('lmac')}\n" \
+        + f"Listening Port: {context.get('lport')}\n" \
+        + f"Sniffer running: {'Yes' if context.get('sniffer') else 'No'}\n" \
+        + f"{'=' * TABLE_WIDTH}\n"
+    print(table, end='')
 
 
 def show_ARP_table() -> None:
@@ -72,21 +69,160 @@ def show_interfaces() -> None:
     print(table)
 
 
-def show_config(context: dict) -> None:
-    """Display the current configuration."""
+def ask_ifname(context: dict) -> None:
+    """Set the interface name in the context."""
 
-    TABLE_WIDTH: int = BANNER_WIDTH
+    # Ask the user for an interface name
+    interface_name: str = input(m('prompt_set_ifname')).strip()
+    context['ifname'] = interface_name
+    context['lmac'] = get_interface_mac(interface_name)
+    logger.info(m('info_set_ifname', interface_name))
+    if not context['lmac']:
+        logger.warning(m('warning_mac_address_not_found', interface_name))
 
-    # Print the current configuration in a formatted way
-    table: str = '' \
-        + f"{'=' * TABLE_WIDTH}\n" \
-        + f"{m('th_config'):^{TABLE_WIDTH}}\n" \
-        + f"{'-' * TABLE_WIDTH}\n" \
-        + f"Interface Name: {context.get('ifname')}\n" \
-        + f"Local MAC Address: {context.get('lmac')}\n" \
-        + f"Target MAC Address: {context.get('TARGET_MAC_ADDRESS')}\n" \
-        + f"{'=' * TABLE_WIDTH}\n"
-    print(table, end='')
+
+def ask_lmac(context: dict) -> None:
+    """Set the local MAC address in the context."""
+
+    # Ask the user for a MAC address
+    mac_address: str = input(m('prompt_set_lmac')).strip()
+    context['lmac'] = mac_address
+    logger.info(m('info_set_lmac', mac_address))
+
+
+def ask_port(context: dict) -> None:
+    """Set the MQTT port in the context."""
+
+    # Ask the user for a port number
+    try:
+        port: int = int(input(m('prompt_set_port')).strip())
+        if port <= 0 or port > 65535:
+            raise ValueError
+        context['lport'] = port
+    except ValueError:
+        logger.error(m('error_invalid_port'))
+
+
+def show_rules(context: dict) -> None:
+    """Display the current rules."""
+
+    from mqtwister.processor.rules import Rule
+
+    # Get rules from context
+    rules: list[Rule] = context.setdefault('rules', [])
+
+    # Print the rules in a formatted way
+    table: str = make_table(
+        headers=[
+            '#'.center(3),
+            m('th_rule_topic'),
+            m('th_rule_payload'),
+            m('th_rule_topic_op_name'),
+            m('th_rule_topic_op_args'),
+            m('th_rule_payload_op_name'),
+            m('th_rule_payload_op_args'),
+        ],
+        rows=[
+            [
+                i,
+                rule.get_topic() or '',
+                rule.get_payload() or '',
+                rule.get_topic_op_name() or '',
+                rule.get_topic_op_args_string() or '',
+                rule.get_payload_op_name() or '',
+                rule.get_payload_op_args_string() or '',
+            ] for i, rule in enumerate(rules)
+        ],
+    )
+    print(table)
+
+
+def add_rule(context: dict) -> None:
+    """Add a new rule to the context."""
+
+    from mqtwister.processor.rules import Rule
+
+    rule_str: str = input(m('prompt_add_rule')).strip()
+
+    try:
+        rule: Rule = Rule.from_str(rule_str)
+        if rule.is_empty():
+            logger.warning(m('warning_empty_rule'))
+        elif rule in context['rules']:
+            logger.warning(m('warning_existing_rule'))
+        else:
+            context['rules'].append(rule)
+            logger.info(m('info_rule_added', rule))
+    except ValueError as e:
+        logger.error(m('error_invalid_rule', e))
+
+
+def del_rule(context: dict) -> None:
+    """Delete a rule from the context."""
+
+    if not context['rules']:
+        logger.warning(m('warning_no_rules'))
+        return
+
+    try:
+        i: int = int(input(m('prompt_del_rule')).strip())
+        rule = context['rules'].pop(i)
+        logger.info(m('info_rule_deleted', rule))
+    except (ValueError, IndexError):
+        logger.error(m('error_invalid_rule_number'))
+        return
+
+
+def start_mitm(context: dict) -> None:
+    """Start the MitM with the current context."""
+
+    # Start the sniffer
+    from mqtwister.processor.sniffer import get_sniffer
+    from mqtwister.processor import packet_callback as prn
+
+    # Ensure sniffer is initialized in the context
+    if not context.get('sniffer'):
+        context['sniffer'] = get_sniffer(context, prn)
+
+    # Start the sniffer and handle exceptions
+    try:
+        print("Press ENTER to stop the sniffer...\n")
+        context['sniffer'].start()
+
+        if context['sniffer'].exception:
+            raise context['sniffer'].exception
+
+        context['sniffer_running'] = context['sniffer'].running
+
+        input()
+        if context['sniffer'].running:
+            context['sniffer'].stop()
+        context['sniffer_running'] = context['sniffer'].running
+        context['sniffer'] = None  # Clear sniffer instance
+
+    except Exception as e:
+        logger.error(e)
+        sys.exit(-1)
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+
+def show_credentials(context: dict) -> None:
+    """Display the captured credentials."""
+
+    # Print the rules in a formatted way
+    table: str = make_table(
+        headers=[
+            '#'.center(3),
+            m('th_credential_client_id'),
+            m('th_credential_username'),
+            m('th_credential_password'),
+        ],
+        rows=[
+            [i, cred[0], cred[1], cred[2]]
+            for i, cred in enumerate(context['credentials'])],
+    )
+    print(table)
 
 
 def check_config(context: dict) -> None:
@@ -102,7 +238,7 @@ def check_config(context: dict) -> None:
         logger.warning(m('warning_lmac_empty', lmac))
     elif not validate_mac_address(lmac):
         logger.warning(m('warning_lmac_invalid', lmac))
-    elif lmac != get_interface_mac(ifname):
+    elif ifname and lmac != get_interface_mac(ifname):
         logger.warning(m('warning_lmac_mismatch', lmac, ifname))
 
 
@@ -114,15 +250,21 @@ def end_program() -> None:
     sys.exit(0)
 
 
-def get_options(context: dict) -> dict[str, tuple[callable, str, bool]]:
+def get_options() -> dict[str, tuple[callable, str, bool]]:
     """Return the available options for the menu."""
 
     # {'key': (function, description, requires_context)}
     return {
+        '0': (start_mitm, m('menu_op_start_mitm'), True),
         '1': (show_config, m('menu_op_show_config'), True),
         '2': (show_ARP_table, m('menu_op_show_arp_table'), False),
         '3': (show_interfaces, m('menu_op_show_interfaces'), False),
         '4': (ask_ifname, m('menu_op_set_ifname'), True),
         '5': (ask_lmac, m('menu_op_set_lmac'), True),
+        '6': (ask_port, m('menu_op_set_port'), True),
+        '7': (show_rules, m('menu_op_show_rules'), True),
+        '8': (add_rule, m('menu_op_add_rule'), True),
+        '9': (del_rule, m('menu_op_del_rule'), True),
+        '10': (show_credentials, m('menu_op_show_credentials'), True),
         'Q': (end_program, m('menu_op_goodbye'), False),
     }

@@ -4,11 +4,15 @@
 
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
+# Language configuration
+DEFAULT_LANGUAGE: str = 'en'
+SUPPORTED_LANGUAGES: set[str] = {'en', 'es'}
+
 # Debugging
 LOGGING_LEVEL: int | None = DEBUG
 
 # Host configuration
-INTERFACE_NAME: str = ''
+INTERFACE_NAME: str = 'Wi-Fi'
 
 # Target configuration
 TARGET_IP: str = ''

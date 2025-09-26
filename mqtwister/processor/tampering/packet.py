@@ -13,7 +13,7 @@ def get_layers(packet: Packet) -> list[Packet]:
     while layer != NoPayload():
         current_layer: Packet = layer.copy()
         current_layer.payload = NoPayload()
-        # current_layer.show()
+        # current_layer.show() # Debug
         layers.append(current_layer)
         layer = layer.payload
 

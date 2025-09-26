@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 from mqtwister.cli import BANNER_WIDTH
-from mqtwister.cli.messages import get_message as m
+from mqtwister.lang import get_message as m
 from mqtwister.cli.tables import DELIMITER, HEADER_SEPARATOR
 from mqtwister.cli.options import get_options, check_config
 from mqtwister.utils.logging import logger
@@ -15,7 +15,7 @@ def show_menu(context: dict) -> None:
     TABLE_WIDTH: int = BANNER_WIDTH
 
     # Get available options
-    options: dict[str, tuple[callable, str, bool]] = get_options(context)
+    options: dict[str, tuple[callable, str, bool]] = get_options()
 
     # Display menu options in a formatted way
     table: str = '' \
