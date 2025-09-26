@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+  box = "generic/alpine319"
+  version = "4.3.12"
+  subnet = "192.168.56"
+
+  # Broker
+  config.vm.define "mqtt-broker" do |broker|
+    broker.vm.box = box
+    broker.vm.box_version = version
+    broker.vm.hostname = "mqtt-broker"
+    broker.vm.network "private_network", ip: "#{subnet}.10"
+    broker.vm.provision "file",
+      source: "config/mosquitto.conf", 
+      destination: "/tmp/mosquitto.conf"
+    broker.vm.provision "shell", path: "provision/broker.sh"
+    # broker.vm.synced_folder "", "/home/vagrant"
+  end
+
+  # Subscriber
+  config.vm.define "mqtt-subscriber" do |subscriber|
+    subscriber.vm.box = box
+    subscriber.vm.box_version = version
+    subscriber.vm.hostname = "mqtt-subscriber"
+    subscriber.vm.network "private_network", ip: "#{subnet}.11"
+    subscriber.vm.provision "file",
+      source: "scripts/subscribe.sh",
+      destination: "/tmp/subscribe.sh"
+    subscriber.vm.provision "shell", path: "provision/subscriber.sh"
+  end
+
+  # Publisher
+  config.vm.define "mqtt-publisher" do |publisher|
+    publisher.vm.box = box
+    publisher.vm.box_version = version
+    publisher.vm.hostname = "mqtt-publisher"
+    publisher.vm.network "private_network", ip: "#{subnet}.12"
+    publisher.vm.provision "file",
+      source: "scripts/publish.sh",
+      destination: "/tmp/publish.sh"
+    publisher.vm.provision "shell", path: "provision/publisher.sh"
+  end
+
+end
