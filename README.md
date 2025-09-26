@@ -181,24 +181,34 @@ ___
 
 <div align="center">
 
+Third party packages:
+
 |              Component               |                    License                     |
 | :----------------------------------: | :--------------------------------------------: |
-|  [![scapy_badge]][scapy_repository]  |  [![scapy_license_badge]][scapy_license_file]  |
 | [![psutil_badge]][psutil_repository] | [![psutil_license_badge]][psutil_license_file] |
+|  [![scapy_badge]][scapy_repository]  |  [![scapy_license_badge]][scapy_license_file]  |
+
+Third party dev-packages:
+
+|              Component               |                    License                     |
+| :----------------------------------: | :--------------------------------------------: |
+| [![pytest_badge]][pytest_repository] | [![pytest_license_badge]][pytest_license_file] |
 
 </div>
 
 <!-- LINKS -->
-[scapy_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/scapy>
-[scapy_repository]: <https://github.com/secdev/scapy>
-[scapy_license_badge]: <https://img.shields.io/github/license/secdev/scapy>
-[scapy_license_file]: <https://github.com/secdev/scapy/blob/master/LICENSE>
-
 [psutil_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/psutil>
 [psutil_repository]: <https://github.com/giampaolo/psutil>
 [psutil_license_badge]: <https://img.shields.io/github/license/giampaolo/psutil>
 [psutil_license_file]: <https://github.com/giampaolo/psutil/blob/master/LICENSE>
-
+[scapy_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/scapy>
+[scapy_repository]: <https://github.com/secdev/scapy>
+[scapy_license_badge]: <https://img.shields.io/github/license/secdev/scapy>
+[scapy_license_file]: <https://github.com/secdev/scapy/blob/master/LICENSE>
+[pytest_badge]: <https://img.shields.io/github/pipenv/locked/dependency-version/danielfeitopin/mqtwister/dev/pytest>
+[pytest_repository]: <https://github.com/pytest-dev/pytest/>
+[pytest_license_badge]: <https://img.shields.io/github/license/pytest-dev/pytest>
+[pytest_license_file]: <https://github.com/pytest-dev/pytest/blob/master/LICENSE>
 ___
 
 </details>
