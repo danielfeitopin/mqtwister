@@ -5,8 +5,8 @@
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Language configuration
-DEFAULT_LANGUAGE: str = 'en'
-SUPPORTED_LANGUAGES: set[str] = {'en', 'es'}
+DEFAULT_LANGUAGE: str = 'gl'
+SUPPORTED_LANGUAGES: set[str] = {'en', 'es', 'gl'}
 
 # Debugging
 LOGGING_LEVEL: int | None = DEBUG
@@ -15,5 +15,4 @@ LOGGING_LEVEL: int | None = DEBUG
 INTERFACE_NAME: str = 'Wi-Fi'
 
 # Target configuration
-TARGET_IP: str = ''
 MQTT_PORT: int = 1883
