@@ -3,9 +3,9 @@ from ast import literal_eval
 
 
 def _get_item(token: str, item: str) -> str | None:
-    pattern = re.compile(rf'{item}="(.*)"')
-    match = pattern.search(token)
-    return match.group(1) if match else None
+    pattern = re.compile(rf'{item}=(["\'])(.*?)\1')
+    match = pattern.fullmatch(token)
+    return match.group(2) if match and len(match.groups()) > 1 else None
 
 
 def _get_topic(token: str) -> str | None:

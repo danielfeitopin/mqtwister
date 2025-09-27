@@ -21,7 +21,15 @@ VALID_PAYLOAD_ASSIGNMENT = 'payload=":)"'
 
     # Switched assignments
     ('topic', VALID_PAYLOAD_ASSIGNMENT, None),
-    ('payload', VALID_TOPIC_ASSIGNMENT, None)
+    ('payload', VALID_TOPIC_ASSIGNMENT, None),
+    
+    # Mixed quotes
+    ('item', 'item="value"', 'value'),
+    ('item', "item='value'", 'value'),
+    ('item', 'item="value\'s test"', "value's test"),
+    ('item', "item='value\"s test'", 'value"s test'),
+    ('item', 'item="mixed quotes\'', None),
+    ('item', 'item=\'mixed quotes"', None),
 
 ])
 def test_get_item(item_type, token, expected):
