@@ -101,13 +101,13 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 
 > [!TIP]
 >
-> To interpose the atacker system between the targets' communications, tools as `ettercap` can be used.
+> To interpose the attacker system between the targets' communications, tools as `ettercap` can be used.
 > <details>
 > <summary>See an example</summary>
 >
 > ___
 > 
-> The following filter logs and drops the received MQTT traffic (assuming the default port, 1883). With this filter, `ettercap` won't forward the MQTT's packets, leaving its processing to `mqtwister`, and keeping the original messages from reaching their destiny without applying changes to the device's operating system or kernel:
+> The following filter logs and drops the received MQTT traffic (assuming the default port, 1883). With this filter, `ettercap` won't forward the MQTT's packets, leaving its processing to `mqtwister`, and keeping the original messages from reaching their destination without applying changes to the device's operating system or kernel:
 > 
 > ```sh
 > # Filename: mqtt_filter.ecf
@@ -129,7 +129,7 @@ For added convenience, the files [`Pipfile`](Pipfile) and [`Pipfile.lock`](Pipfi
 > And then it can be used with `ettercap` as shown in the following ARP Poisoning example:
 >
 > ```sh
-> ettercap -T -i eth1 -M arp:remote /$TARGET_IPS// /$BROKER_IP//$MQTT_PORT -F mqtt_filter.ef
+> ettercap -T -i $INTERFACE -M arp:remote /$TARGET_IPS// /$BROKER_IP//$MQTT_PORT -F mqtt_filter.ef
 > ```
 > ___
 
