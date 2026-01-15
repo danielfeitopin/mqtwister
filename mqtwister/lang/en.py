@@ -98,7 +98,8 @@ MESSAGES.update({
 # Sniffer and tampering notifications
 MESSAGES.update({
     'debug_mqtt_packet_received': "MQTT '{}' from '{}'/'{}'/'{}' to '{}'/'{}'/'{}'.",
-    'info_mqtt_rule_applied': "MQTT rule applied: ({}) '{}':'{}' -> '{}':'{}'.",
+    'info_mqtt_rule_match': "{} matches '{}':'{}'.",
+    'info_mqtt_rule_applied': "Substitution applied: '{}':'{}' -> '{}':'{}'.",
     'info_credentials_found': "Credentials found!: Client ID: '{}', Username: '{}', Password: '{}'",
     'error_operation_failed': "Operation '{}' failed: {}",
     'error_operation_not_found': "Operation '{}' not found.",

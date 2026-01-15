@@ -98,7 +98,8 @@ MESSAGES.update({
 # Tampering notifications
 MESSAGES.update({
     'debug_mqtt_packet_received': "Paquete MQTT recibido de '{}'/'{}'/'{}' a '{}'/'{}'/'{}'.",
-    'info_mqtt_rule_applied': "Regla MQTT aplicada: ({}) '{}':'{}' -> '{}':'{}'.",
+    'info_mqtt_rule_match': "{} coincide con '{}':'{}'.",
+    'info_mqtt_rule_applied': "Substitución aplicada: '{}':'{}' -> '{}':'{}'.",
     'info_credentials_found': "¡Credenciales encontradas!: ID de cliente: '{}', Nombre de usuario: '{}', Contraseña: '{}'",
     'error_operation_failed': "La operación '{}' falló: {}",
     'error_operation_not_found': "Operación '{}' no encontrada.",

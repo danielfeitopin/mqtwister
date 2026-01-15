@@ -46,8 +46,6 @@ def process_MQTTConnect(packet: MQTT, credentials: set) -> None:
 
 def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
 
-    logger.debug(packet[MQTT].show())
-
     # Get current values
     topic: bytes = packet[MQTTPublish].topic
     payload: bytes = packet[MQTTPublish].value
@@ -55,6 +53,9 @@ def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
     # Evaluate rules until first match
     for rule in rules:
         if rule.matches(packet[MQTTPublish].topic, packet[MQTTPublish].value):
+
+            # Notify user about the match
+            logger.info(m('info_mqtt_rule_match', rule, topic, payload))
 
             # Update topic
             if op_name := rule.get_topic_op_name():
@@ -72,9 +73,9 @@ def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
                     rule.get_payload_op_values()
                 )
 
-            # Log message
-            logger.debug(m(
-                'info_mqtt_rule_applied', rule,
+            # Notify user about the applied substitution
+            logger.info(m(
+                'info_mqtt_rule_applied',
                 packet[MQTTPublish].topic, packet[MQTTPublish].value,
                 topic, payload
             ))
