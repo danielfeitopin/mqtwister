@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 from scapy.all import Packet, NoPayload
-from scapy.layers.inet import IP, TCP
 
 
 def get_layers(packet: Packet) -> list[Packet]:
@@ -30,12 +29,3 @@ def reassemble_packet(layers: list[Packet]) -> Packet:
             reassembled_packet /= layer
 
     return reassembled_packet
-
-
-def recalculate_values(packet: TCP) -> None:
-
-    del packet[TCP].chksum
-    del packet[IP].len
-    del packet[IP].chksum
-
-    return None
