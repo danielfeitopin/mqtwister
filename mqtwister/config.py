@@ -5,7 +5,7 @@
 from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Language configuration
-DEFAULT_LANGUAGE: str = 'gl'
+DEFAULT_LANGUAGE: str = 'en'
 SUPPORTED_LANGUAGES: set[str] = {'en', 'es', 'gl'}
 
 # Debugging
