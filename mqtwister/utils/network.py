@@ -7,21 +7,12 @@ import platform
 import psutil
 import re
 import subprocess
-import uuid
 
 IP_MAC_REGEX: re.Pattern = re.compile(
     r"(\d{1,3}(?:\.\d{1,3}){3})"   # IP Address
     + r".*?"  # Intermediate characters
     + r"([\da-fA-F]{2}(?:(?::|[\-])[\da-fA-F]{2}){5})"  # MAC Address
 )
-
-
-def get_mac_address() -> str:
-    MAC_CHARS: int = 12  # Number of characters in a MAC address
-    mac: int = uuid.getnode()  # 48-bit integer
-    mac: str = hex(mac)[2:].zfill(MAC_CHARS)  # Hex string without '0x' prefix
-    mac: str = ':'.join([mac[i:i+2] for i in range(0, len(mac), 2)])  # Format
-    return mac
 
 
 def format_mac_address(mac: str) -> str:
