@@ -8,8 +8,6 @@ import psutil
 import re
 import subprocess
 import uuid
-from mqtwister.lang import get_message as m
-from mqtwister.utils.logging import logger
 
 IP_MAC_REGEX: re.Pattern = re.compile(
     r"(\d{1,3}(?:\.\d{1,3}){3})"   # IP Address
@@ -32,32 +30,25 @@ def format_mac_address(mac: str) -> str:
 
 def get_arp_table() -> dict[str, str]:
 
-    try:
+    # Determine the appropriate command based on the OS
+    system: str = platform.system().lower()
 
-        # Determine the appropriate command based on the OS
-        system: str = platform.system().lower()
+    if system == 'linux':
+        command: list[str] = ["ip", "neigh"]
+    elif system == 'windows':
+        command: list[str] = ["arp", "-a"]
+    else:
+        raise NotImplementedError()
 
-        if system == 'linux':
-            command: list[str] = ["ip", "neigh"]
-        elif system == 'windows':
-            command: list[str] = ["arp", "-a"]
-        else:
-            raise NotImplementedError(
-                m('error_arp_table_retrieval_not_implemented')
-            )
+    # Initialize empty dictionary for ARP table
+    arp_table: dict[str, str] = {}
 
-        # Initialize empty dictionary for ARP table
-        arp_table: dict[str, str] = {}
-
-        # Execute the command and parse its output
-        output: str = subprocess.check_output(command, text=True)
-        for line in output.splitlines():
-            if match := IP_MAC_REGEX.search(line):
-                ip, mac = match.groups()
-                arp_table[ip] = format_mac_address(mac)
-
-    except Exception as e:
-        logger.error(m('error_retrieving_arp_table', e))
+    # Execute the command and parse its output
+    output: str = subprocess.check_output(command, text=True)
+    for line in output.splitlines():
+        if match := IP_MAC_REGEX.search(line):
+            ip, mac = match.groups()
+            arp_table[ip] = format_mac_address(mac)
 
     # Sort the ARP table by IP address
     arp_table = dict(sorted(arp_table.items(),

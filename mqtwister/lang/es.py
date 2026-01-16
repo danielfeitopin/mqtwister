@@ -89,7 +89,6 @@ MESSAGES.update({
 # Network notifications
 MESSAGES.update({
     'info_getting_arp_table': "Obteniendo tabla ARP...",
-    'debug_arp_table': "Tabla ARP: {}",
     'warning_arp_table_empty': "La tabla ARP está vacía o no se pudo recuperar.",
     'warning_interface_not_found': "Interfaz '{}' no encontrada.",
     'warning_mac_address_not_found': "Dirección MAC no encontrada para la interfaz '{}'",

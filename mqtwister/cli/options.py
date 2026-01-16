@@ -35,19 +35,26 @@ def show_ARP_table() -> None:
 
     # Retrieve the ARP table and order it by IP address
     logger.info(m('info_getting_arp_table'))
-    arp_table: dict[str, str] = get_arp_table()
-    logger.debug(m('debug_arp_table', arp_table))
+    try:
+        arp_table: dict[str, str] = get_arp_table()
+    except NotImplementedError:
+        logger.error(m('error_arp_table_retrieval_not_implemented'))
+    except Exception as e:
+        logger.error(m('error_retrieving_arp_table', str(e)))
+    else:
 
-    # Print the ARP table in a formatted way
-    table: str = make_table(
-        headers=[m('th_arp_table_ip'), m('th_arp_table_mac')],
-        rows=[[ip, mac] for ip, mac in arp_table.items()],
-    )
-    print(table)
+        # Print the ARP table in a formatted way
+        table: str = make_table(
+            headers=[m('th_arp_table_ip'), m('th_arp_table_mac')],
+            rows=[[ip, mac] for ip, mac in arp_table.items()],
+        )
+        print(table)
 
-    # Warn if the ARP table is empty
-    if not arp_table:
-        logger.warning(m('warning_arp_table_empty'))
+        # Warn if the ARP table is empty
+        if not arp_table:
+            logger.warning(m('warning_arp_table_empty'))
+
+    return None
 
 
 def show_interfaces() -> None:
