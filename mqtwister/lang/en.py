@@ -93,6 +93,8 @@ MESSAGES.update({
     'warning_arp_table_empty': "ARP table is empty or could not be retrieved.",
     'warning_interface_not_found': "Interface '{}' not found.",
     'warning_mac_address_not_found': "MAC address not found for interface '{}'",
+    'error_retrieving_arp_table': "Error retrieving ARP table: {}",
+    'error_arp_table_retrieval_not_implemented': "ARP table retrieval not implemented for this OS.",
 })
 
 # Sniffer and tampering notifications

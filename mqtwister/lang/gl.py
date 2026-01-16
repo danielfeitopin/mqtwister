@@ -93,6 +93,8 @@ MESSAGES.update({
     'warning_arp_table_empty': "A táboa ARP está baleira ou non se puido recuperar.",
     'warning_interface_not_found': "Interface '{}' non atopada.",
     'warning_mac_address_not_found': "Enderezo MAC non atopado para a interface '{}'",
+    'error_retrieving_arp_table': "Erro ao recuperar a táboa ARP: {}",
+    'error_arp_table_retrieval_not_implemented': "A recuperación da táboa ARP non está implementada para este sistema operativo.",
 })
 
 # Tampering notifications

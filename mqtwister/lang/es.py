@@ -93,6 +93,8 @@ MESSAGES.update({
     'warning_arp_table_empty': "La tabla ARP está vacía o no se pudo recuperar.",
     'warning_interface_not_found': "Interfaz '{}' no encontrada.",
     'warning_mac_address_not_found': "Dirección MAC no encontrada para la interfaz '{}'",
+    'error_retrieving_arp_table': "Error al recuperar la tabla ARP: {}",
+    'error_arp_table_retrieval_not_implemented': "La recuperación de la tabla ARP no está implementada para este sistema operativo.",
 })
 
 # Tampering notifications
