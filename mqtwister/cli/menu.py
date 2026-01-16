@@ -22,7 +22,7 @@ def show_menu(context: dict) -> None:
         + f"{DELIMITER * TABLE_WIDTH}\n" \
         + f"{m('th_menu').center(TABLE_WIDTH)}\n" \
         + f"{HEADER_SEPARATOR * TABLE_WIDTH}\n" \
-        + f"{'\n'.join(f"[{k}] {v[1]}" for k, v in options.items())}\n" \
+        + '\n'.join(f"[{k}] {v[1]}" for k, v in options.items()) + '\n' \
         + f"{DELIMITER * TABLE_WIDTH}"
     print(table)
 
