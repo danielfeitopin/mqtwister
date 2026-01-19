@@ -1,7 +1,7 @@
 import pytest
 from mqtwister.processor.tampering.operations import (
     set_value, replace, swap, lowercase, uppercase, prepend, append, trim,
-    truncate, to_int_str, to_float_str, encode_base64, decode_base64
+    truncate, to_int_str, to_float_str, to_base64, from_base64
 )
 
 TEST_VALUE: bytes = b"Hello, World!"
@@ -21,8 +21,8 @@ TEST_VALUE: bytes = b"Hello, World!"
     (to_int_str, (b"3.14",), b"3"),
     (to_float_str, (b"3",), b"3.0"),
     (to_float_str, (b"3.14",), b"3.14"),
-    (encode_base64, (TEST_VALUE,), b"SGVsbG8sIFdvcmxkIQ=="),
-    (decode_base64, (b"SGVsbG8sIFdvcmxkIQ==",), TEST_VALUE),
+    (to_base64, (TEST_VALUE,), b"SGVsbG8sIFdvcmxkIQ=="),
+    (from_base64, (b"SGVsbG8sIFdvcmxkIQ==",), TEST_VALUE),
 ])
 def test_operations(function, parameters, expected):
     assert function(*parameters) == expected

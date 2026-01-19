@@ -62,13 +62,13 @@ def to_float_str(value: bytes) -> bytes:
         raise ValueError(f"Cannot convert {value} to float")
 
 
-def encode_base64(value: bytes) -> bytes:
+def to_base64(value: bytes) -> bytes:
     """Encodes the value in base64 if it is bytes."""
 
     return base64.b64encode(value)
 
 
-def decode_base64(value: bytes) -> bytes:
+def from_base64(value: bytes) -> bytes:
     """Decodes the value from base64 if it is bytes."""
 
     try:
@@ -89,6 +89,6 @@ OPERATIONS: dict[str, Callable] = {
     'truncate': truncate,
     'to_int_str': to_int_str,
     'to_float_str': to_float_str,
-    'encode_base64': encode_base64,
-    'decode_base64': decode_base64,
+    'to_base64': to_base64,
+    'from_base64': from_base64,
 }
