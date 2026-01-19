@@ -46,18 +46,18 @@ def truncate(value: bytes, length: int) -> bytes:
     return value[:length]
 
 
-def to_int_str(value: bytes) -> str:
+def to_int_str(value: bytes) -> bytes:
     """Convierte el valor a entero si es posible."""
     try:
-        return str(int(float(value)))
+        return str(int(float(value))).encode()
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to int")
 
 
-def to_float_str(value: bytes) -> str:
+def to_float_str(value: bytes) -> bytes:
     """Convierte el valor a flotante si es posible."""
     try:
-        return str(float(value))
+        return str(float(value)).encode()
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to float")
 
