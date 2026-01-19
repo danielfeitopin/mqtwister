@@ -55,7 +55,12 @@ def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
         if rule.matches(packet[MQTTPublish].topic, packet[MQTTPublish].value):
 
             # Notify user about the match
-            logger.info(m('info_mqtt_rule_match', rule, topic, payload))
+            logger.info(m(
+                'info_mqtt_rule_match',
+                rule,
+                repr(topic)[2, -1],
+                repr(payload)[2, -1]
+            ))
 
             # Update topic
             if op_name := rule.get_topic_op_name():
