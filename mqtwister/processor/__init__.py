@@ -58,8 +58,8 @@ def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
             logger.info(m(
                 'info_mqtt_rule_match',
                 rule,
-                repr(topic)[2, -1],
-                repr(payload)[2, -1]
+                repr(topic)[2:-1],
+                repr(payload)[2:-1]
             ))
 
             # Update topic
@@ -81,8 +81,10 @@ def process_MQTTPublish(packet: Packet, rules: dict[Rule]) -> None:
             # Notify user about the applied substitution
             logger.info(m(
                 'info_mqtt_rule_applied',
-                packet[MQTTPublish].topic, packet[MQTTPublish].value,
-                topic, payload
+                repr(packet[MQTTPublish].topic)[2:-1],
+                repr(packet[MQTTPublish].value)[2:-1],
+                repr(topic)[2:-1],
+                repr(payload)[2:-1]
             ))
 
             # Apply changes to the packet

@@ -100,7 +100,7 @@ MESSAGES.update({
 MESSAGES.update({
     'debug_mqtt_packet_received': "Paquete MQTT recibido de '{}'/'{}'/'{}' a '{}'/'{}'/'{}'.",
     'info_mqtt_rule_match': "{} coincide con {}:{}.",
-    'info_mqtt_rule_applied': "Substitución aplicada: '{}':'{}' -> '{}':'{}'.",
+    'info_mqtt_rule_applied': "Substitución aplicada: {}:{} -> {}:{}.",
     'info_credentials_found': "Credenciais atopadas!: ID de cliente: '{}', Nome de usuario: '{}', Contrasinal: '{}'",
     'error_operation_failed': "A operación '{}' fallou: {}",
     'error_operation_not_found': "Operación '{}' non atopada.",
