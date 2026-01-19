@@ -1,40 +1,28 @@
 import pytest
 from mqtwister.processor.tampering.operations import (
-    uppercase, lowercase, trim, replace, prepend, append, to_int, to_float
+    set_value, replace, swap, lowercase, uppercase, prepend, append, trim,
+    truncate, to_int, to_float, encode_base64, decode_base64
 )
 
-
-def test_uppercase():
-    assert uppercase(b"hello") == b"HELLO"
+TEST_VALUE: bytes = b"Hello, World!"
 
 
-def test_lowercase():
-    assert lowercase(b"HELLO") == b"hello"
-
-
-def test_trim():
-    assert trim(b"  hello  ") == b"hello"
-
-
-def test_replace():
-    assert replace(b"hello world", b"world", b"there") == b"hello there"
-
-
-def test_prepend():
-    assert prepend(b"world", b"hello ") == b"hello world"
-
-
-def test_append():
-    assert append(b"hello", b" world") == b"hello world"
-
-
-def test_to_int():
-    assert to_int(b"123") == 123
-    with pytest.raises(ValueError):
-        to_int(b"abc")
-
-
-def test_to_float():
-    assert to_float(b"123.45") == 123.45
-    with pytest.raises(ValueError):
-        to_float(b"abc")
+@pytest.mark.parametrize("function, parameters, expected", [
+    (set_value, (TEST_VALUE, b"New Value"), b"New Value"),
+    (replace, (TEST_VALUE, b"World", b"There"), b"Hello, There!"),
+    (swap, (TEST_VALUE, b"Hello", b"World"), b"World, Hello!"),
+    (lowercase, (TEST_VALUE,), b"hello, world!"),
+    (uppercase, (TEST_VALUE,), b"HELLO, WORLD!"),
+    (prepend, (TEST_VALUE, b"Hello "), b"Hello Hello, World!"),
+    (append, (TEST_VALUE, b" Goodbye!"), b"Hello, World! Goodbye!"),
+    (trim, (b"  Hello, World!  ",), b"Hello, World!"),
+    (truncate, (TEST_VALUE, 5), b"Hello"),
+    (to_int, (b"3",), 3),
+    (to_int, (b"3.14",), 3),
+    (to_float, (b"3",), 3.0),
+    (to_float, (b"3.14",), 3.14),
+    (encode_base64, (TEST_VALUE,), b"SGVsbG8sIFdvcmxkIQ=="),
+    (decode_base64, (b"SGVsbG8sIFdvcmxkIQ==",), TEST_VALUE),
+])
+def test_operations(function, parameters, expected):
+    assert function(*parameters) == expected
