@@ -46,18 +46,18 @@ def truncate(value: bytes, length: int) -> bytes:
     return value[:length]
 
 
-def to_int(value: bytes) -> int:
+def to_int_str(value: bytes) -> str:
     """Convierte el valor a entero si es posible."""
     try:
-        return int(float(value))
+        return str(int(float(value)))
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to int")
 
 
-def to_float(value: bytes) -> float:
+def to_float_str(value: bytes) -> str:
     """Convierte el valor a flotante si es posible."""
     try:
-        return float(value)
+        return str(float(value))
     except (ValueError, TypeError):
         raise ValueError(f"Cannot convert {value} to float")
 
@@ -87,8 +87,8 @@ OPERATIONS: dict[str, Callable] = {
     'append': append,
     'trim': trim,
     'truncate': truncate,
-    'to_int': to_int,
-    'to_float': to_float,
+    'to_int_str': to_int_str,
+    'to_float_str': to_float_str,
     'encode_base64': encode_base64,
     'decode_base64': decode_base64,
 }

@@ -1,7 +1,7 @@
 import pytest
 from mqtwister.processor.tampering.operations import (
     set_value, replace, swap, lowercase, uppercase, prepend, append, trim,
-    truncate, to_int, to_float, encode_base64, decode_base64
+    truncate, to_int_str, to_float_str, encode_base64, decode_base64
 )
 
 TEST_VALUE: bytes = b"Hello, World!"
@@ -17,10 +17,10 @@ TEST_VALUE: bytes = b"Hello, World!"
     (append, (TEST_VALUE, b" Goodbye!"), b"Hello, World! Goodbye!"),
     (trim, (b"  Hello, World!  ",), b"Hello, World!"),
     (truncate, (TEST_VALUE, 5), b"Hello"),
-    (to_int, (b"3",), 3),
-    (to_int, (b"3.14",), 3),
-    (to_float, (b"3",), 3.0),
-    (to_float, (b"3.14",), 3.14),
+    (to_int_str, (b"3",), "3"),
+    (to_int_str, (b"3.14",), "3"),
+    (to_float_str, (b"3",), "3.0"),
+    (to_float_str, (b"3.14",), "3.14"),
     (encode_base64, (TEST_VALUE,), b"SGVsbG8sIFdvcmxkIQ=="),
     (decode_base64, (b"SGVsbG8sIFdvcmxkIQ==",), TEST_VALUE),
 ])
