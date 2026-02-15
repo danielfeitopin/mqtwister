@@ -6,11 +6,11 @@ def main(context: dict = {}) -> None:
     """Main function to run the MQTwister CLI."""
 
     # Display banner
-    from .cli.banner import Banner
+    from .ui.banner import Banner
     print(Banner.get_colorful_banner(Banner.DEFAULT_COLOR))
 
     # Show the main menu
-    from .cli.menu import show_menu
+    from .ui.menu import show_menu
     while context.get('show_menu', True):
         show_menu(context)
         print()

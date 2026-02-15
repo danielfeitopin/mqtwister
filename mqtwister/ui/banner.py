@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
-from mqtwister.cli import BANNER_WIDTH
+from mqtwister.ui import BANNER_WIDTH
 
 class Banner:
 

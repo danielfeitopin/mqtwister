@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 import sys
-from mqtwister.cli import BANNER_WIDTH
+from mqtwister.ui import BANNER_WIDTH
 from mqtwister.lang import get_message as m
-from mqtwister.cli.tables import make_table
+from mqtwister.ui.tables import make_table
 from mqtwister.utils.logging import logger
 from mqtwister.utils.network import (
     get_arp_table, get_interfaces, get_interface_mac, validate_mac_address
