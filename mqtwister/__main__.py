@@ -2,6 +2,34 @@
 #
 # SPDX-License-Identifier: GPL-2.0-only
 
+def import_modules() -> None:
+    """Import all necessary modules to ensure they are available when needed."""
+
+    # Retrieve and set language from config
+    print('Loading language module...')
+    from .config import DEFAULT_LANGUAGE
+    from mqtwister.lang import LanguageManager, get_message as m
+    LanguageManager.set_language(DEFAULT_LANGUAGE)
+    print(m('init_set_language', DEFAULT_LANGUAGE))
+
+    # Import UI components
+    print(m('init_load_ui'))
+    import mqtwister.ui.banner
+    import mqtwister.ui.menu
+    import mqtwister.ui.options
+    import mqtwister.ui.tables
+
+    # Import utilities
+    print(m('init_load_utils'))
+    import mqtwister.utils.logging
+    import mqtwister.utils.network
+
+    # Import processing components
+    print(m('init_load_processing'))
+    import mqtwister.processor
+    import mqtwister.processor.sniffer
+
+
 def main(context: dict = {}) -> None:
     """Main function to run the MQTwister CLI."""
 
@@ -18,12 +46,11 @@ def main(context: dict = {}) -> None:
 
 if __name__ == "__main__":
 
+    import_modules()
+
     import sys
-    from mqtwister.config import MQTT_PORT, DEFAULT_LANGUAGE
-
-    from mqtwister.lang import LanguageManager, get_message as m
-    LanguageManager.set_language(DEFAULT_LANGUAGE)
-
+    from mqtwister.config import MQTT_PORT
+    from mqtwister.lang import get_message as m
     from mqtwister.utils.logging import logger
 
     # Initialize context with default values

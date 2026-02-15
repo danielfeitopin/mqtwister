@@ -4,6 +4,14 @@
 
 MESSAGES: dict[str, str] = {}
 
+# Initialization and configuration messages
+MESSAGES.update({
+    'init_set_language': "Lenguaje establecido a '{}'.",
+    'init_load_ui': "Cargando componentes de la interfaz...",
+    'init_load_utils': "Cargando utilidades...",
+    'init_load_processing': "Cargando componentes de procesamiento...",
+})
+
 # Menu entries, prompts, and actions
 MESSAGES.update({
 

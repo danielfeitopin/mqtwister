@@ -10,13 +10,13 @@ from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 
 from mqtwister.config import MQTT_PORT
-from mqtwister.processor.rules import Rule
-from mqtwister.processor.tampering import (
-    call_operation, recalculate_MQTTPublish
-)
+from mqtwister.lang import get_message as m
 from mqtwister.utils.logging import logger
 from mqtwister.utils.network import get_arp_table
-from mqtwister.lang import get_message as m
+from .rules import Rule
+from .tampering import (
+    call_operation, recalculate_MQTTPublish
+)
 
 
 def process_MQTTConnect(packet: MQTT, credentials: set) -> None:
