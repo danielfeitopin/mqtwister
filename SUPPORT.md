@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0 -->
+
 # Support
 
 Thank you for using MQTwister! If you need help or have questions, please refer to the following options:

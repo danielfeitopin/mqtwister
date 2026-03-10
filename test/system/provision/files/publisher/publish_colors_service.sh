@@ -1,4 +1,7 @@
-#!/sbin/openrc-run
+#! /sbin/openrc-run
+# SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
 
 name="publish_colors"
 description="MQTT Color Publisher Service"

@@ -1,0 +1,17 @@
+version = 1
+
+# Pipfile and requirements.txt
+[[annotations]]
+path = [
+    "Pipfile",
+    "Pipfile.lock",
+    "requirements.txt"
+]
+SPDX-FileCopyrightText = "2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>"
+SPDX-License-Identifier = "GPL-2.0-only"
+
+# Images
+[[annotations]]
+path = "docs/img/readme-terminal.gif"
+SPDX-FileCopyrightText = "2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
 def tokenize(line: str) -> list[str]:
 
     tokens: list[str] = []  # List to hold the final tokens

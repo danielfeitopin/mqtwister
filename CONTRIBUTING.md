@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0 -->
+
 # Contributing to MQTwister
 
 Thank you for your interest in contributing to [MQTwister](<https://github.com/danielfeitopin/mqtwister>)! We appreciate your time and effort in helping improve this project.
