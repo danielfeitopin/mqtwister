@@ -136,6 +136,7 @@ To use MQTwister follow the next steps:
 
 <figure>
     <img alt="Menu GIF" src="./docs/img/readme-terminal.gif" width="360px">
+    <br>
     <figcaption>Terminal output showing the main menu.</figcaption>
 </figure>
 
