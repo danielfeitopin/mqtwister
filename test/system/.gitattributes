@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+*.sh text eol=lf
+*.conf text eol=lf
+\.bash_profile text eol=lf
