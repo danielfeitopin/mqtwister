@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2026 Daniel Feito-Pin <danielfeitopin+github@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mqtwister"
+version = "0.1.0rc1"
+description = "A Tool for Man-in-the-Middle (MitM) Attacks on the MQTT Protocol"
+keywords = [
+    "MQTT",
+    "Internet of Things",
+    "IoT",
+    "Man-in-the-middle",
+    "Cybersecurity",
+]
+authors = [
+    { name = "Daniel Feito Pin", email = "danielfeitopin+github@protonmail.com" },
+]
+license = "GPL-2.0-only"
+readme = "README-PyPI.md"
+classifiers = [
+    "Programming Language :: Python",
+    "Natural Language :: English",
+    "Natural Language :: Spanish",
+    "Natural Language :: Galician",
+    "Programming Language :: Python :: 3.13"
+]
+
+requires-python = ">=3.13"
+dependencies = ["psutil==7.0.0", "scapy==2.6.1"]
+
+[project.urls]
+Homepage = "https://github.com/danielfeitopin/mqtwister"
+Issues = "https://github.com/danielfeitopin/mqtwister/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mqtwister"]

@@ -26,6 +26,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0 -->
   - [Table of Contents](#table-of-contents)
   - [About this project](#about-this-project)
   - [Setup](#setup)
+    - [Install from PyPI](#install-from-pypi)
     - [Using `requirements.txt`](#using-requirementstxt)
     - [Using `Pipenv`](#using-pipenv)
   - [Usage](#usage)
@@ -75,12 +76,19 @@ MQTwister is primarily focused on packet processing and is expected to be used a
 > ettercap -T -i $INTERFACE -M arp:remote /$TARGET_IPS// /$BROKER_IP//$MQTT_PORT -F mqtt_filter.ef
 > ```
 > ___
-
 > 
 > </details>
 
 
 ## Setup
+
+### Install from PyPI
+
+MQTwister is published on [PyPI](<https://pypi.org/project/mqtwister/>), install it with:
+
+```sh
+python -m pip install mqtwister
+```
 
 ### Using `requirements.txt`
 
